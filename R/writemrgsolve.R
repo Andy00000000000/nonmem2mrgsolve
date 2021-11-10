@@ -1,20 +1,34 @@
 ## FUNCTION WRITE MRGSOLVE ####
 
-writemrgsolve <- function(mrg_code, filename = "mrgsolve_code0", dir = NULL){
-  
+#' Write the mrgsolve code to a R file
+#'
+#' Writes the mrgsolve code, translated from the input NONMEM run, to a R file.
+#'
+#' @param mrg_code Dataframe of the NONMEM run translated into mrgsolve code format
+#' @param filename String of the file name for the output mrgsolve code R file
+#' @param dir String of the directory path to the NONMEM run files
+#'
+#' @return R file of the mrgsolve code
+#'
+#' @examples
+#' writemrgsolve()
+#'
+#' @export
+writemrgsolve <- function(mrg_code = NULL, filename = "mrgsolve_code0", dir = NULL){
+
   tdir <- ifelse(is.na(dir) | is.null(dir), "", paste0(dir,"/"))
   nme_pth <- paste0(tdir,filename,".R")
-  
+
   file <- file(nme_pth)
-  
+
   cat("code <- ' ",file=nme_pth,sep="\n\n")
-  
+
   for(i in 1:nrow(mrg_code)){
     cat(mrg_code[i,"V1"],file=nme_pth,sep = "\n",append=TRUE)
   }
-  
+
   cat("'",file=nme_pth,append = T)
-  
+
   close(file)
 }
 

@@ -1,0 +1,9 @@
+exportPattern("^[[:alpha:]]+")
+
+importFrom(magrittr,"%>%")
+
+Imports:
+	dplyr (>= 1.0.7),
+	stringr (>= 1.4.0),
+	stringi (>= 1.6.2),
+	zoo (>= 1.8-9)

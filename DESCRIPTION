@@ -1,0 +1,10 @@
+Package: nonmem2mrgsolve
+Type: Package
+Title: Converts NONMEM run to mrgsolve code using the NONMEM ctl and ext files
+Version: 0.1.0
+Author: Andrew Santulli
+Maintainer: Andrew Santulli <asantulli@epd-llc.com>
+Description: This package is intended to streamline the modeling and simulation process for PK and PK-PD applications by translating NONMEM code to mrgsolve code. It currently does not encompass all NONMEM use cases, and as such modifications to the output mrgsolve code may be neccessary. There is no guarantee to the accuracy of the translation. It remains the responsibility of the user to perform quality control on the output mrgsolve code.
+License: GPL (>=2)
+Encoding: UTF-8
+LazyData: true

@@ -453,11 +453,11 @@ get_block_pk <- function(ctl0 = NULL, mrg_code = NULL, cmts = NULL){
     dplyr::bind_rows(data.frame(V1 = "/* NOTE: The translateor does not currently convert MTIME() to self.mtime(). */"))%>%
     dplyr::bind_rows(data.frame(V1 = "/* NOTE: The translateor does not currently comment out IOV. */"))%>%
     dplyr::bind_rows(blank_df())%>%
-    dplyr::bind_rows(input %>% filter(BLOCK == "PK") %>% select(V1))%>%
+    dplyr::bind_rows(input %>% filter(BLOCK == "PK") %>% dplyr::select(V1))%>%
     dplyr::bind_rows(blank_df())%>%
     dplyr::bind_rows(data.frame(V1 = "$ODE"))%>%
     dplyr::bind_rows(blank_df())%>%
-    dplyr::bind_rows(input %>% filter(BLOCK == "DES") %>% select(V1))%>%
+    dplyr::bind_rows(input %>% filter(BLOCK == "DES") %>% dplyr::select(V1))%>%
     dplyr::bind_rows(blank_df())%>%
     dplyr::bind_rows(data.frame(V1 = "$OMEGA @block"))%>%
     dplyr::bind_rows(blank_df())

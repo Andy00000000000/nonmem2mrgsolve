@@ -11,11 +11,11 @@ LazyData: true
 Depends:
   R (>= 4.1.0)
 Imports:
-  magrittr (>= 2.0.1),
-	dplyr (>= 1.0.7),
-	stringr (>= 1.4.0),
-	stringi (>= 1.6.2),
-	zoo (>= 1.8-9)
+    dplyr (>= 1.0.7),
+    stringr (>= 1.4.0),
+    stringi (>= 1.6.2),
+    zoo (>= 1.8-9),
+    magrittr
 Exports:
   load_ctl,
   load_ext,

@@ -15,4 +15,9 @@ Imports:
 	stringr (>= 1.4.0),
 	stringi (>= 1.6.2),
 	zoo (>= 1.8-9)
+Exports:
+  load_ctl,
+  load_ext,
+  nonmem2mrgsolve,
+  writemrgsolve
 RoxygenNote: 7.1.1

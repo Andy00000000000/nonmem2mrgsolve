@@ -9,7 +9,9 @@ nonmem2mrgsolve(
   dir = NULL,
   sigdig = NULL,
   write = T,
-  return.orig = F
+  return.orig = F,
+  out.filename = NULL,
+  use.cnv = F
 )
 }
 \arguments{
@@ -19,7 +21,13 @@ nonmem2mrgsolve(
 
 \item{sigdig}{Numeric of the number of significant digits to round non-fixed thetas and etas to; default NULL for no rounding}
 
-\item{write}{Logical for whether to output the originally read in NONMEM ctl and ext files (\code{T} or \code{F})}
+\item{write}{Logical for whether to write the mrgsolve code output to a R file (\code{T} or \code{F})}
+
+\item{return.orig}{Logical for whether to output the originally read in NONMEM ctl and ext files (\code{T} or \code{F})}
+
+\item{out.filename}{String of the file name without extension for the mrgsolve code output R file}
+
+\item{use.cnv}{Logical for whether to use NONMEM cnv file final parameter estimates instead of ext estimates (\code{T} or \code{F})}
 }
 \value{
 R dataframe of the mrgsolve code

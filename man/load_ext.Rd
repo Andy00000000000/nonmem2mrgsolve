@@ -4,7 +4,7 @@
 \alias{load_ext}
 \title{Load NONMEM ext file into R}
 \usage{
-load_ext(filename = NULL, dir = "", sigdig = -1)
+load_ext(filename = NULL, dir = "", sigdig = -1, use.cnv = F)
 }
 \arguments{
 \item{filename}{String of the NONMEM model file name without the .ext extension}

@@ -52,7 +52,7 @@ get_block_input <- function(ctl0 = NULL, ext0 = NULL){
                                        ifelse(toupper(V1) %in% note_param3, note3,
                                               ifelse(toupper(V1) %in% note_param4, note4,
                                                      "")))))%>%
-    dplyr::mutate(V1 = paste0(V1,"=0",ifelse(dplyr::row_number() == max(dplyr::row_number()), "", ","),NOTE))%>% # format for mrgsolve w/ notes
+    dplyr::mutate(V1 = paste0(V1,"=NA_real_",ifelse(dplyr::row_number() == max(dplyr::row_number()), "", ","),NOTE))%>% # format for mrgsolve w/ notes
     dplyr::select(-NOTE)
 
   mrg_code <- ctl0 %>%

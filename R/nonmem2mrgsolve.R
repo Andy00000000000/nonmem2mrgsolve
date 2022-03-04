@@ -8,7 +8,9 @@
 #' @param dir String of the directory path to the NONMEM run files
 #' @param sigdig Numeric of the number of significant digits to round non-fixed thetas and etas to; default NULL for no rounding
 #' @param write Logical for whether to write the mrgsolve code output to a R file (\code{T} or \code{F})
-#' @param write Logical for whether to output the originally read in NONMEM ctl and ext files (\code{T} or \code{F})
+#' @param return.orig Logical for whether to output the originally read in NONMEM ctl and ext files (\code{T} or \code{F})
+#' @param out.filename String of the file name without extension for the mrgsolve code output R file
+#' @param use.cnv Logical for whether to use NONMEM cnv file final parameter estimates instead of ext estimates (\code{T} or \code{F})
 #'
 #' @return R dataframe of the mrgsolve code
 #'
@@ -16,14 +18,15 @@
 #' nonmem2mrgsolve()
 #'
 #' @export
-nonmem2mrgsolve <- function(filename = NULL, dir = NULL, sigdig = NULL, write = T, return.orig = F){
+nonmem2mrgsolve <- function(filename = NULL, dir = NULL, sigdig = NULL, write = T, return.orig = F, out.filename = NULL, use.cnv = F){
 
   keep_block <- c("PROB","INPUT", "MODEL", "PK", "DES", "TABLE")
 
   tsigdig <- ifelse(!is.null(sigdig), sigdig, -1)
   tdir <- ifelse(!is.null(dir), paste0(dir,"/"), "")
+  tusecnv <- ifelse(use.cnv == T, T, F)
 
-  btemp <- load_ext(filename, tdir, sigdig = tsigdig)
+  btemp <- load_ext(filename, tdir, sigdig = tsigdig, use.cnv = tusecnv)
 
   ext0 <- btemp$ext0
   ext <- btemp$ext
@@ -52,7 +55,13 @@ nonmem2mrgsolve <- function(filename = NULL, dir = NULL, sigdig = NULL, write = 
 
   if(write == T){
 
-    writemrgsolve(mrg_code, paste0("mrgsolve-code-Ver0_",filename), dir = dir)
+    outfile <- paste0("mrgsolve-code-Ver0_",filename)
+
+    if(!is.na(out.filename) & !is.null(out.filename) & out.filename != "" & out.filename != " "){
+      outfile <- out.filename
+    }
+
+    writemrgsolve(mrg_code, outfile, dir = dir)
   }
 
   if(return.orig == T){

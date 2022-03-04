@@ -44,22 +44,27 @@ load_ctl <- function(filename = NULL, dir = ""){
 #' load_ext()
 #'
 #' @export
-load_ext <- function(filename = NULL, dir = "", sigdig = -1){
+load_ext <- function(filename = NULL, dir = "", sigdig = -1, use.cnv = F){
 
-  ext00 <- read.table(paste0(dir,filename,".ext"),sep='', header=T,fill=T,na.strings=".", skip=1)
+  ext00 <- read.table(paste0(dir,filename,".ext"),sep='',header=T,fill=T,na.strings=".", skip=1)
 
-  ext0 <- ext00 %>%
-    dplyr::filter(ITERATION >= 0)%>%
-    dplyr::arrange(-ITERATION)%>%
-    dplyr::filter(dplyr::row_number()==1)
+  if(use.cnv == T){
+
+    ext0 <- read.table(paste0(dir,filename,".cnv"),sep='',header=T,fill=T,na.strings =".",skip=1)%>%
+      dplyr::filter(ITERATION == -2000000000)
+
+  }else{
+
+    ext0 <- ext00 %>%
+      dplyr::filter(ITERATION == -1000000000) # NONMEM User Guide VIII for definition (final estimates)
+  }
 
   tmpfixed <- ext00 %>%
-    dplyr::filter(ITERATION < 0) %>%
-    dplyr::filter(dplyr::row_number()==2)
+    dplyr::filter(ITERATION == -1000000006) # NONMEM User Guide VIII for definition (fixed parameters)
 
   if(sigdig > 0){
     omnofix <- tmpfixed[1,dplyr::starts_with("OMEGA", vars = colnames(tmpfixed))]
-    omnofix <- colnames(omnofix[which(omnofix[1,] != 1E10)])
+    omnofix <- colnames(omnofix[which(omnofix[1,] != 1)])
 
     tmpomnofix <- lapply(1:length(omnofix), function(i){
       nofixtmpa <- strsplit(trimws(omnofix[[i]]),"\\.")
@@ -70,7 +75,7 @@ load_ext <- function(filename = NULL, dir = "", sigdig = -1){
 
   ext <- list(NITER = NA, OFV = NA, THETA = NA, OMEGA = NA)
 
-  ext$NITER <- ext0[1,"ITERATION"]
+  ext$NITER <- max(ext00$ITERATION)
   ext$OFV <- ext0[1,"OBJ"]
   ext$THETA <- ext0[1,dplyr::starts_with("THETA",vars = colnames(ext0))]
 
@@ -122,7 +127,7 @@ load_ext <- function(filename = NULL, dir = "", sigdig = -1){
 
   if(sigdig > 0){
 
-    thnofix <- which(tmpfixed[1,dplyr::starts_with("THETA",vars = colnames(tmpfixed))] != 1E10)
+    thnofix <- which(tmpfixed[1,dplyr::starts_with("THETA",vars = colnames(tmpfixed))] != 1)
 
     if(length(thnofix)>0){
       ext[["THETA"]][thnofix] <- signif(ext[["THETA"]][thnofix],sigdig)

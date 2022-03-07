@@ -65,12 +65,12 @@ load_ext <- function(filename = NULL, dir = "", sigdig = -1, use.cnv = F){
 
     ext0 <- ext00 %>%
       dplyr::filter(ITERATION == -1000000000) %>% # NONMEM User Guide VIII for definition (final estimates)
-      dplyr::filter(row_number() == max(row_number()))
+      dplyr::filter(dplyr::row_number() == max(dplyr::row_number()))
   }
 
   tmpfixed <- ext00 %>%
     dplyr::filter(ITERATION == -1000000006) %>% # NONMEM User Guide VIII for definition (fixed parameters)
-    dplyr::filter(row_number() == max(row_number()))
+    dplyr::filter(dplyr::row_number() == max(dplyr::row_number()))
 
   if(sigdig > 0){
     omnofix <- tmpfixed[1,dplyr::starts_with("OMEGA", vars = colnames(tmpfixed))]

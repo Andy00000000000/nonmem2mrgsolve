@@ -48,6 +48,13 @@ load_ext <- function(filename = NULL, dir = "", sigdig = -1, use.cnv = F){
 
   ext00 <- read.table(paste0(dir,filename,".ext"),sep='',header=T,fill=T,na.strings=".", skip=1)
 
+  if(class(ext00$ITERATION) != "numeric"){
+    for(i in 1:ncol(ext00)){
+      ext00[,i] <- as.numeric(ext00[,i])
+    }
+    rm(i)
+  }
+
   if(use.cnv == T){
 
     ext0 <- read.table(paste0(dir,filename,".cnv"),sep='',header=T,fill=T,na.strings =".",skip=1)%>%
@@ -56,11 +63,13 @@ load_ext <- function(filename = NULL, dir = "", sigdig = -1, use.cnv = F){
   }else{
 
     ext0 <- ext00 %>%
-      dplyr::filter(ITERATION == -1000000000) # NONMEM User Guide VIII for definition (final estimates)
+      dplyr::filter(ITERATION == -1000000000) %>% # NONMEM User Guide VIII for definition (final estimates)
+      dplyr::filter(row_number() == max(row_number()))
   }
 
   tmpfixed <- ext00 %>%
-    dplyr::filter(ITERATION == -1000000006) # NONMEM User Guide VIII for definition (fixed parameters)
+    dplyr::filter(ITERATION == -1000000006) %>% # NONMEM User Guide VIII for definition (fixed parameters)
+    dplyr::filter(row_number() == max(row_number()))
 
   if(sigdig > 0){
     omnofix <- tmpfixed[1,dplyr::starts_with("OMEGA", vars = colnames(tmpfixed))]
@@ -76,7 +85,7 @@ load_ext <- function(filename = NULL, dir = "", sigdig = -1, use.cnv = F){
   ext <- list(NITER = NA, OFV = NA, THETA = NA, OMEGA = NA)
 
   ext$NITER <- max(ext00$ITERATION)
-  ext$OFV <- ext0[1,"OBJ"]
+  ext$OFV <- ext0[1,which(substr(colnames(ext0),nchar(colnames(ext0))-2,nchar(ext0)) == "OBJ")]
   ext$THETA <- ext0[1,dplyr::starts_with("THETA",vars = colnames(ext0))]
 
   tmpom <- ext0[1,dplyr::starts_with("OMEGA",vars = colnames(ext0))]

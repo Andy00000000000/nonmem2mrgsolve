@@ -12,6 +12,8 @@ load_ext(filename = NULL, dir = "", sigdig = -1, use.cnv = F)
 \item{dir}{String of the directory path to the NONMEM run files}
 
 \item{sigdig}{Numeric of the number of significant digits to round non-fixed thetas and etas to; -1 for no rounding}
+
+\item{use.cnv}{Logical for whether to use NONMEM cnv file final parameter estimates instead of ext estimates (\code{T} or \code{F})}
 }
 \value{
 R list of the NONMEM final OFV, parameter estimates, and IIV magnitudes

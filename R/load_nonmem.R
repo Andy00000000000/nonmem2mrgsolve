@@ -37,6 +37,7 @@ load_ctl <- function(filename = NULL, dir = ""){
 #' @param filename String of the NONMEM model file name without the .ext extension
 #' @param dir String of the directory path to the NONMEM run files
 #' @param sigdig Numeric of the number of significant digits to round non-fixed thetas and etas to; -1 for no rounding
+#' @param use.cnv Logical for whether to use NONMEM cnv file final parameter estimates instead of ext estimates (\code{T} or \code{F})
 #'
 #' @return R list of the NONMEM final OFV, parameter estimates, and IIV magnitudes
 #'

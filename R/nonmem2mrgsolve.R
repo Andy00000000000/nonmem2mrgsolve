@@ -20,7 +20,7 @@
 #' @export
 nonmem2mrgsolve <- function(filename = NULL, dir = NULL, sigdig = NULL, write = T, return.orig = F, out.filename = NULL, use.cnv = F){
 
-  keep_block <- c("PROB","INPUT", "MODEL", "PK", "DES", "TABLE")
+  keep_block <- c("PROB", "PROBL", "INPUT", "MODEL", "PK", "DES", "TABLE")
 
   tsigdig <- ifelse(!is.null(sigdig), sigdig, -1)
   tdir <- ifelse(!is.null(dir), paste0(dir,"/"), "")

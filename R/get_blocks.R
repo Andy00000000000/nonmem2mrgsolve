@@ -56,7 +56,7 @@ get_block_input <- function(ctl0 = NULL, ext0 = NULL){
     dplyr::select(-NOTE)
 
   mrg_code <- ctl0 %>%
-    dplyr::filter(BLOCK == "PROB")%>%
+    dplyr::filter(substr(BLOCK,1,4) == "PROB")%>%
     dplyr::select(V1)%>%
     dplyr::bind_rows(blank_df())%>%
     dplyr::bind_rows(data.frame(V1 = "$PARAM"))%>%
@@ -87,6 +87,7 @@ get_block_model <- function(ctl0 = NULL, mrg_code = NULL){
   input <- data.frame(V1 = strsplit(input$V1, "\\s")[[1]]) %>% # single row to many by white space
     dplyr::mutate(V1 = trimws(V1, which = "both"))%>% # remove white space
     dplyr::filter(V1 != "")%>% # remove white space
+    dplyr::mutate(V1 = ifelse(V1 == "COMP" | V1 == "COMP=", ifelse(dplyr::lead(V1)=="=", paste0(V1,"=",dplyr::lead(V1,2)), paste0(V1,"=",dplyr::lead(V1))), V1))%>% # add = sign if not used
     dplyr::filter(substr(V1,1,4) == "COMP") %>% # filter to just compartment declares
     dplyr::mutate(V1 = gsub("COMP","",V1))%>%
     dplyr::mutate(V1 = gsub("=","",V1))%>% # get down to just names and options
@@ -122,10 +123,20 @@ get_block_pk <- function(ctl0 = NULL, mrg_code = NULL, cmts = NULL){
     dplyr::mutate(V1 = gsub("LOG\\(","log\\(",V1))%>%
     dplyr::mutate(V1 = gsub("SQRT\\(","sqrt\\(",V1))%>%
     dplyr::mutate(V1 = gsub("IF\\(","if\\(",V1))%>%
-    dplyr::mutate(V1 = gsub("IF \\(","if\\(",V1))%>%
+    dplyr::mutate(V1 = gsub("IF\\s\\(","if\\(",V1))%>%
     dplyr::mutate(V1 = gsub("ELSE","}else{",V1))%>%
     dplyr::mutate(V1 = gsub("THEN","\\{",V1))%>%
     dplyr::mutate(V1 = gsub("ENDIF","\\}",V1))%>%
+
+    dplyr::mutate(V1 = gsub("\\s\\.EQ\\.\\s","==",V1))%>%
+    dplyr::mutate(V1 = gsub("\\s\\.NE\\.\\s","!=",V1))%>%
+    dplyr::mutate(V1 = gsub("\\s\\.GT\\.\\s",">",V1))%>%
+    dplyr::mutate(V1 = gsub("\\s\\.LT\\.\\s","<",V1))%>%
+    dplyr::mutate(V1 = gsub("\\s\\.GE\\.\\s",">=",V1))%>%
+    dplyr::mutate(V1 = gsub("\\s\\.LE\\.\\s","<=",V1))%>%
+    dplyr::mutate(V1 = gsub("\\s\\.AND\\.\\s","\\&",V1))%>%
+    dplyr::mutate(V1 = gsub("\\s\\.OR\\.\\s","\\|",V1))%>%
+
     dplyr::mutate(V1 = gsub("\\.EQ\\.","==",V1))%>%
     dplyr::mutate(V1 = gsub("\\.NE\\.","!=",V1))%>%
     dplyr::mutate(V1 = gsub("\\.GT\\.",">",V1))%>%
@@ -133,7 +144,25 @@ get_block_pk <- function(ctl0 = NULL, mrg_code = NULL, cmts = NULL){
     dplyr::mutate(V1 = gsub("\\.GE\\.",">=",V1))%>%
     dplyr::mutate(V1 = gsub("\\.LE\\.","<=",V1))%>%
     dplyr::mutate(V1 = gsub("\\.AND\\.","\\&",V1))%>%
-    dplyr::mutate(V1 = gsub("\\.OR\\.","\\|",V1))
+    dplyr::mutate(V1 = gsub("\\.OR\\.","\\|",V1))%>%
+
+    dplyr::mutate(V1 = gsub("\\.EQ\\.\\s","==",V1))%>%
+    dplyr::mutate(V1 = gsub("\\.NE\\.\\s","!=",V1))%>%
+    dplyr::mutate(V1 = gsub("\\.GT\\.\\s",">",V1))%>%
+    dplyr::mutate(V1 = gsub("\\.LT\\.\\s","<",V1))%>%
+    dplyr::mutate(V1 = gsub("\\.GE\\.\\s",">=",V1))%>%
+    dplyr::mutate(V1 = gsub("\\.LE\\.\\s","<=",V1))%>%
+    dplyr::mutate(V1 = gsub("\\.AND\\.\\s","\\&",V1))%>%
+    dplyr::mutate(V1 = gsub("\\.OR\\.\\s","\\|",V1))%>%
+
+    dplyr::mutate(V1 = gsub("\\s\\.EQ\\.","==",V1))%>%
+    dplyr::mutate(V1 = gsub("\\s\\.NE\\.","!=",V1))%>%
+    dplyr::mutate(V1 = gsub("\\s\\.GT\\.",">",V1))%>%
+    dplyr::mutate(V1 = gsub("\\s\\.LT\\.","<",V1))%>%
+    dplyr::mutate(V1 = gsub("\\s\\.GE\\.",">=",V1))%>%
+    dplyr::mutate(V1 = gsub("\\s\\.LE\\.","<=",V1))%>%
+    dplyr::mutate(V1 = gsub("\\s\\.AND\\.","\\&",V1))%>%
+    dplyr::mutate(V1 = gsub("\\s\\.OR\\.","\\|",V1))
 
   ### Flag Conditional Statements ####
 
@@ -397,7 +426,7 @@ get_block_pk <- function(ctl0 = NULL, mrg_code = NULL, cmts = NULL){
     as.data.frame()%>%
     dplyr::mutate(V1 = ifelse(FLG_COMMENT == 0 & FLG_ODE == 0 & FLG_COND == 0 & !is.na(V2) & VAR_OCC == 1, paste0("double ",V1), V1))%>%
     dplyr::mutate(V2.1 = ifelse(FLG_COMMENT == 0 & FLG_ODE == 0 & FLG_COND == 0 & !is.na(V2) & VAR_OCC == 1, paste0("double ",V2), V2))%>% # for ode block
-    dplyr::select(-FLG_COND,-FLG_COMMENT,-VAR_OCC)
+    dplyr::select(-FLG_COMMENT,-VAR_OCC)
 
   ### Replace ODE syntax ####
 
@@ -422,13 +451,14 @@ get_block_pk <- function(ctl0 = NULL, mrg_code = NULL, cmts = NULL){
   for(j in 1:nrow(tmp)){
     for(i in 1:nrow(cmts)){
       tmp[j,"V3"] <- stringr::str_replace_all(tmp[j,"V3"], paste0("A\\(",i,"\\)"), cmts[i,"V1"])
+      tmp[j,"V1"] <- stringr::str_replace_all(tmp[j,"V1"], paste0("A\\(",i,"\\)"), cmts[i,"V1"])
     }
     rm(i)
   }
   rm(j)
 
   tmp <- tmp %>%
-    dplyr::mutate(V1 = paste0(V2.3,"=",V3))
+    dplyr::mutate(V1 = ifelse(FLG_COND == 0, paste0(V2.3,"=",V3), V1))
 
   input <- input %>%
     dplyr::filter(BLOCK != "DES")

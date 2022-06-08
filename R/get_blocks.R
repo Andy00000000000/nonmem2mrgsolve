@@ -58,6 +58,7 @@ get_block_input <- function(ctl0 = NULL, ext0 = NULL){
   mrg_code <- ctl0 %>%
     dplyr::filter(substr(BLOCK,1,4) == "PROB")%>%
     dplyr::select(V1)%>%
+    dplyr::mutate(V1 = gsub("\\$..*?\\s","$PROB ",V1))%>%
     dplyr::bind_rows(blank_df())%>%
     dplyr::bind_rows(data.frame(V1 = "$PARAM"))%>%
     dplyr::bind_rows(blank_df())%>%
@@ -121,6 +122,7 @@ get_block_pk <- function(ctl0 = NULL, mrg_code = NULL, cmts = NULL){
     dplyr::select(V1,BLOCK)%>%
     dplyr::mutate(V1 = gsub("EXP\\(","exp\\(",V1))%>% # convert to mrgsolve syntax
     dplyr::mutate(V1 = gsub("LOG\\(","log\\(",V1))%>%
+    dplyr::mutate(V1 = gsub("LOG10\\(","log10\\(",V1))%>%
     dplyr::mutate(V1 = gsub("SQRT\\(","sqrt\\(",V1))%>%
     dplyr::mutate(V1 = gsub("IF\\(","if\\(",V1))%>%
     dplyr::mutate(V1 = gsub("IF\\s\\(","if\\(",V1))%>%

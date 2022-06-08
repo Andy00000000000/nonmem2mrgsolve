@@ -20,7 +20,7 @@
 #' @export
 nonmem2mrgsolve <- function(filename = NULL, dir = NULL, sigdig = NULL, write = T, return.orig = F, out.filename = NULL, use.cnv = F){
 
-  keep_block <- c("PROB", "PROBL", "INPUT", "MODEL", "PK", "DES", "TABLE")
+  keep_block <- c("PROB", "PROBL", "PROBLEM", "INPUT", "MODEL", "PK", "DES", "TABLE")
 
   tsigdig <- ifelse(!is.null(sigdig), sigdig, -1)
   tdir <- ifelse(!is.null(dir), paste0(dir,"/"), "")
@@ -55,10 +55,11 @@ nonmem2mrgsolve <- function(filename = NULL, dir = NULL, sigdig = NULL, write = 
 
   if(write == T){
 
+    initialize_out.filename <- out.filename
     outfile <- paste0("mrgsolve-code-Ver0_",filename)
 
-    if(!is.na(out.filename) & !is.null(out.filename) & out.filename != "" & out.filename != " "){
-      outfile <- out.filename
+    if(!is.na(initialize_out.filename) & !is.null(initialize_out.filename) & initialize_out.filename != "" & initialize_out.filename != " "){
+      outfile <- initialize_out.filename
     }
 
     writemrgsolve(mrg_code, outfile, dir = dir)

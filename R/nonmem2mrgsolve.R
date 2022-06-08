@@ -22,16 +22,18 @@ nonmem2mrgsolve <- function(filename = NULL, dir = NULL, sigdig = NULL, write = 
 
   keep_block <- c("PROB", "PROBL", "PROBLEM", "INPUT", "MODEL", "PK", "DES", "TABLE")
 
+  in.filename <- gsub(".ctl","",filename)
+
   tsigdig <- ifelse(!is.null(sigdig), sigdig, -1)
   tdir <- ifelse(!is.null(dir), paste0(dir,"/"), "")
   tusecnv <- ifelse(use.cnv == T, T, F)
 
-  btemp <- load_ext(filename, tdir, sigdig = tsigdig, use.cnv = tusecnv)
+  btemp <- load_ext(in.filename, tdir, sigdig = tsigdig, use.cnv = tusecnv)
 
   ext0 <- btemp$ext0
   ext <- btemp$ext
 
-  ctl0 <- load_ctl(filename, tdir)
+  ctl0 <- load_ctl(in.filename, tdir)
 
   ctl <- ctl0 %>%
     dplyr::filter(BLOCK %in% keep_block) # filter to useful blocks
@@ -55,11 +57,12 @@ nonmem2mrgsolve <- function(filename = NULL, dir = NULL, sigdig = NULL, write = 
 
   if(write == T){
 
-    initialize_out.filename <- out.filename
-    outfile <- paste0("mrgsolve-code-Ver0_",filename)
+    outfile <- paste0("mrgsolve-code-V0_",in.filename)
 
-    if(!is.na(initialize_out.filename) & !is.null(initialize_out.filename) & initialize_out.filename != "" & initialize_out.filename != " "){
-      outfile <- initialize_out.filename
+    if(!is.na(out.filename) & !is.null(out.filename)){
+      if(out.filename != "" & out.filename != " "){
+        outfile <- out.filename
+      }
     }
 
     writemrgsolve(mrg_code, outfile, dir = dir)

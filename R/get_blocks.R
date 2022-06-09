@@ -295,8 +295,9 @@ get_block_pk <- function(ctl0 = NULL, mrg_code = NULL, cmts = NULL){
         ind3 <- stringr::str_locate_all(tmps[1], "\\/") %>% sapply(., function(x) x[,2]) # locate only ends
         ind4 <- stringr::str_locate_all(tmps[1], "\\*") %>% sapply(., function(x) x[,2]) # locate only ends
         ind5 <- stringr::str_locate_all(tmps[1], "\\=") %>% sapply(., function(x) x[,2]) # locate only ends
+        ind6 <- stringr::str_locate_all(tmps[1], "\\(") %>% sapply(., function(x) x[,2]) # locate only ends
 
-        indmax <- max(c(unlist(ind1),unlist(ind2),unlist(ind3),unlist(ind4),unlist(ind5)))
+        indmax <- max(c(unlist(ind1),unlist(ind2),unlist(ind3),unlist(ind4),unlist(ind5),unlist(ind6)))
 
         tmps[1] <- paste0(substr(tmps[1],1,indmax),"pow(",substr(tmps[1],indmax+1,nchar(tmps[1])),",")
 
@@ -345,8 +346,9 @@ get_block_pk <- function(ctl0 = NULL, mrg_code = NULL, cmts = NULL){
         ind2 <- stringr::str_locate_all(tmps[2], "\\-") %>% sapply(., function(x) x[,2]) # locate only ends
         ind3 <- stringr::str_locate_all(tmps[2], "\\/") %>% sapply(., function(x) x[,2]) # locate only ends
         ind4 <- stringr::str_locate_all(tmps[2], "\\*") %>% sapply(., function(x) x[,2]) # locate only ends
+        ind5 <- stringr::str_locate_all(tmps[2], "\\)") %>% sapply(., function(x) x[,2]) # locate only ends
 
-        ind <- min(c(unlist(ind1),unlist(ind2),unlist(ind3),unlist(ind4),nchar(tmps[2])))
+        ind <- min(c(unlist(ind1),unlist(ind2),unlist(ind3),unlist(ind4),unlist(ind5),nchar(tmps[2])))
 
         if(ind == nchar(tmps[2])){
           tmps[2] <- paste0(tmps[2],")")

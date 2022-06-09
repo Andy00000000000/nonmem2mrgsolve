@@ -481,9 +481,9 @@ get_block_pk <- function(ctl0 = NULL, mrg_code = NULL, cmts = NULL){
     dplyr::bind_rows(data.frame(V1 = "/* NOTE: The nonmem2mrgsolve package remains in active development, please report bugs and feature requests to improve future versions. */"))%>%
     dplyr::bind_rows(blank_df())%>%
     dplyr::bind_rows(data.frame(V1 = "/* NOTE: If a variable was declared within a conditional statement, then it may be missing double before the variable name. */"))%>%
-    dplyr::bind_rows(data.frame(V1 = "/* NOTE: The translateor does not currently convert T or TIME to SOLVERTIME. */"))%>%
-    dplyr::bind_rows(data.frame(V1 = "/* NOTE: The translateor does not currently convert MTIME() to self.mtime(). */"))%>%
-    dplyr::bind_rows(data.frame(V1 = "/* NOTE: The translateor does not currently comment out IOV. */"))%>%
+    dplyr::bind_rows(data.frame(V1 = "/* NOTE: The translator does not currently convert T or TIME to SOLVERTIME. */"))%>%
+    dplyr::bind_rows(data.frame(V1 = "/* NOTE: The translator does not currently convert MTIME() to self.mtime(). */"))%>%
+    dplyr::bind_rows(data.frame(V1 = "/* NOTE: The translator does not currently handle IOV. */"))%>%
     dplyr::bind_rows(blank_df())%>%
     dplyr::bind_rows(input %>% dplyr::filter(BLOCK == "PK") %>% dplyr::select(V1))%>%
     dplyr::bind_rows(blank_df())%>%

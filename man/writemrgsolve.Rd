@@ -2,7 +2,7 @@
 % Please edit documentation in R/writemrgsolve.R
 \name{writemrgsolve}
 \alias{writemrgsolve}
-\title{Write the mrgsolve code to a R file}
+\title{Write the mrgsolve code to an R file}
 \usage{
 writemrgsolve(mrg_code = NULL, filename = "mrgsolve_code0", dir = NULL)
 }
@@ -17,7 +17,7 @@ writemrgsolve(mrg_code = NULL, filename = "mrgsolve_code0", dir = NULL)
 R file of the mrgsolve code
 }
 \description{
-Writes the mrgsolve code, translated from the input NONMEM run, to a R file.
+Writes the mrgsolve code, translated from the input NONMEM run, to an R file.
 }
 \examples{
 writemrgsolve()

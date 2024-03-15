@@ -1,8 +1,8 @@
 ## FUNCTION WRITE MRGSOLVE ####
 
-#' Write the mrgsolve code to a R file
+#' Write the mrgsolve code to an R file
 #'
-#' Writes the mrgsolve code, translated from the input NONMEM run, to a R file.
+#' Writes the mrgsolve code, translated from the input NONMEM run, to an R file.
 #'
 #' @param mrg_code Dataframe of the NONMEM run translated into mrgsolve code format
 #' @param filename String of the file name for the output mrgsolve code R file

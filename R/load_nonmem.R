@@ -4,15 +4,17 @@
 
 #' Load NONMEM ctl file into R
 #'
-#' Loads the NONMEM ctl model file into R for translation to mrgsolve format.
+#' Loads the NONMEM ctl file into R for translation to mrgsolve format.
 #'
-#' @param filename String of the NONMEM model file name without the .ctl extension
+#' @param filename String of the NONMEM model name without the .ctl extension
 #' @param dir String of the directory path to the NONMEM run files
 #'
 #' @return R dataframe of the NONMEM ctl file
 #'
 #' @examples
-#' load_ctl()
+#' load_ctl(filename = "nonmem-model", dir = "path/to/directory/")
+#'
+#' load_ctl(filename = "/path/to/directory/nonmem-model")
 #'
 #' @export
 load_ctl <- function(filename = NULL, dir = ""){
@@ -32,17 +34,19 @@ load_ctl <- function(filename = NULL, dir = ""){
 
 #' Load NONMEM ext file into R
 #'
-#' Loads the NONMEM ext model file into R for capture of the final estimates.
+#' Loads the NONMEM ext file into R for capture of the final estimates.
 #'
-#' @param filename String of the NONMEM model file name without the .ext extension
+#' @param filename String of the NONMEM model name without the .ext extension
 #' @param dir String of the directory path to the NONMEM run files
 #' @param sigdig Numeric of the number of significant digits to round non-fixed thetas and etas to; -1 for no rounding
-#' @param use.cnv Logical for whether to use NONMEM cnv file final parameter estimates instead of ext estimates (\code{T} or \code{F})
+#' @param use.cnv Logical for whether to use the NONMEM cnv file for final parameter estimates instead of the ext file (\code{T} or \code{F})
 #'
 #' @return R list of the NONMEM final OFV, parameter estimates, and IIV magnitudes
 #'
 #' @examples
-#' load_ext()
+#' load_ext(filename = "nonmem-model", dir = "path/to/directory/")
+#'
+#' load_ext(filename = "/path/to/directory/nonmem-model")
 #'
 #' @export
 load_ext <- function(filename = NULL, dir = "", sigdig = -1, use.cnv = F){
@@ -90,6 +94,8 @@ load_ext <- function(filename = NULL, dir = "", sigdig = -1, use.cnv = F){
     }else{
       omnofix <- NULL
     }
+  }else{
+    omnofix <- NULL
   }
 
   ext <- list(NITER = NA, OFV = NA, THETA = NA, OMEGA = NA)
@@ -112,7 +118,6 @@ load_ext <- function(filename = NULL, dir = "", sigdig = -1, use.cnv = F){
 
   tmpom <- tmpom0[1, which(tmpom0 != 0)]
   if(class(tmpom)=="numeric"){ # 3/17/2024 fix load when only 1 IIV
-    tmpom_colnm <- colnames(tmpom0)[which(tmpom0!=0)]
     tmpom_val <- tmpom
     tmpom <- data.frame()
     tmpom[1,colnames(tmpom0)[which(tmpom0!=0)]] = tmpom_val

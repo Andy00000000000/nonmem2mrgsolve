@@ -7,9 +7,9 @@
 writemrgsolve(mrg_code = NULL, filename = "mrgsolve_code0", dir = NULL)
 }
 \arguments{
-\item{mrg_code}{Dataframe of the NONMEM run translated into mrgsolve code format}
+\item{mrg_code}{Dataframe of the NONMEM model translated into mrgsolve code}
 
-\item{filename}{String of the file name for the output mrgsolve code R file}
+\item{filename}{String of the name for the mrgsolve output file without the .R extension}
 
 \item{dir}{String of the directory path to the NONMEM run files}
 }

@@ -7,7 +7,7 @@
 load_ctl(filename = NULL, dir = "")
 }
 \arguments{
-\item{filename}{String of the NONMEM model file name without the .ctl extension}
+\item{filename}{String of the NONMEM model name without the .ctl extension}
 
 \item{dir}{String of the directory path to the NONMEM run files}
 }
@@ -15,9 +15,11 @@ load_ctl(filename = NULL, dir = "")
 R dataframe of the NONMEM ctl file
 }
 \description{
-Loads the NONMEM ctl model file into R for translation to mrgsolve format.
+Loads the NONMEM ctl file into R for translation to mrgsolve format.
 }
 \examples{
-load_ctl()
+load_ctl(filename = "nonmem-model", dir = "path/to/directory/")
+
+load_ctl(filename = "/path/to/directory/nonmem-model")
 
 }

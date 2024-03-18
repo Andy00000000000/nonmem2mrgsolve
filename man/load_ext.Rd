@@ -7,21 +7,23 @@
 load_ext(filename = NULL, dir = "", sigdig = -1, use.cnv = F)
 }
 \arguments{
-\item{filename}{String of the NONMEM model file name without the .ext extension}
+\item{filename}{String of the NONMEM model name without the .ext extension}
 
 \item{dir}{String of the directory path to the NONMEM run files}
 
 \item{sigdig}{Numeric of the number of significant digits to round non-fixed thetas and etas to; -1 for no rounding}
 
-\item{use.cnv}{Logical for whether to use NONMEM cnv file final parameter estimates instead of ext estimates (\code{T} or \code{F})}
+\item{use.cnv}{Logical for whether to use the NONMEM cnv file for final parameter estimates instead of the ext file (\code{T} or \code{F})}
 }
 \value{
 R list of the NONMEM final OFV, parameter estimates, and IIV magnitudes
 }
 \description{
-Loads the NONMEM ext model file into R for capture of the final estimates.
+Loads the NONMEM ext file into R for capture of the final estimates.
 }
 \examples{
-load_ext()
+load_ext(filename = "nonmem-model", dir = "path/to/directory/")
+
+load_ext(filename = "/path/to/directory/nonmem-model")
 
 }

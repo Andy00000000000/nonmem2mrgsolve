@@ -4,8 +4,8 @@
 #'
 #' Writes the mrgsolve code, translated from the input NONMEM run, to an R file.
 #'
-#' @param mrg_code Dataframe of the NONMEM run translated into mrgsolve code format
-#' @param filename String of the file name for the output mrgsolve code R file
+#' @param mrg_code Dataframe of the NONMEM model translated into mrgsolve code
+#' @param filename String of the name for the mrgsolve output file without the .R extension
 #' @param dir String of the directory path to the NONMEM run files
 #'
 #' @return R file of the mrgsolve code

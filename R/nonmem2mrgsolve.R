@@ -1,21 +1,27 @@
 ## FUNCTION MASTER ####
 
-#' Convert NONMEM run into mrgsolve code
+#' Automated NONMEM to mrgsolve Translation
 #'
-#' Translates a NONMEM run into mrgsolve code format using the NONMEM ctl and ext files.
+#' Translates a NONMEM model into mrgsolve syntax using the NONMEM ctl and ext (or cnv) files.
 #'
-#' @param filename String of the NONMEM model file name without any extension
-#' @param dir String of the directory path to the NONMEM run files
+#' @param filename String of the NONMEM model name with or without the .ctl extension
+#' @param dir String of the directory path to the NONMEM files (if not already given in the filename input; or if the working directory was not already set)
 #' @param sigdig Numeric of the number of significant digits to round non-fixed thetas and etas to; default NULL for no rounding
-#' @param write Logical for whether to write the mrgsolve code output to a R file (\code{T} or \code{F})
-#' @param return.orig Logical for whether to output the originally read in NONMEM ctl and ext files (\code{T} or \code{F})
-#' @param out.filename String of the file name without extension for the mrgsolve code output R file
-#' @param use.cnv Logical for whether to use NONMEM cnv file final parameter estimates instead of ext estimates (\code{T} or \code{F})
+#' @param write Logical for whether to write the mrgsolve code to an R file (\code{T} or \code{F})
+#' @param return.orig Logical for whether to output the original NONMEM ctl and ext files (\code{T} or \code{F})
+#' @param out.filename String of the name for the mrgsolve output file without the .R extension
+#' @param use.cnv Logical for whether to use the NONMEM cnv file for final parameter estimates instead of the ext file (\code{T} or \code{F})
 #'
 #' @return R dataframe of the mrgsolve code
 #'
 #' @examples
-#' nonmem2mrgsolve()
+#' setwd("path/to/directory")
+#' nonmem2mrgsolve::nonmem2mrgsolve(filename = "nonmem-model.ctl")
+#'
+#' nonmem2mrgsolve::nonmem2mrgsolve(filename = "nonmem-model", dir = "path/to/directory", sigdig = 3, write = T, return.orig = F, out.filename = "mrgsolve-model", use.cnv = F)
+#'
+#' library(nonmem2mrgsolve)
+#' nonmem2mrgsolve(filename = "/path/to/directory/nonmem-model.ctl")
 #'
 #' @export
 nonmem2mrgsolve <- function(filename = NULL, dir = NULL, sigdig = NULL, write = T, return.orig = F, out.filename = NULL, use.cnv = F){

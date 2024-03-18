@@ -8,8 +8,8 @@ get_block_input <- function(ctl0 = NULL, ext0 = NULL){
 
   note_param1 <- c("DOSEN", "DOSENUM", "OCC", "CYC", "CYCLE", "DAY")
   note_param2 <- "TSFD"
-  note_param3 <- "TSLD"
-  note_param4 <- c("DOSEUG","DOSEMG","DOSE","DOSEMGKG")
+  note_param3 <- c("TSLD","TSLDE")
+  note_param4 <- c("DOSEUG","DOSEMG","DOSE","DOSEMGKG","DOSENG")
 
   note1 <- " /* NOTE: Parameter identified as time-varying. A full dataset must be supplied to mrgsolve or the parameter should instead be calculated in $ODE. */"
   note2 <- " /* NOTE: Parameter identified as time-varying. Please refer to TIME, self.time(), and SOLVERTIME if TSFD is equivalent to TIME. */"
@@ -52,7 +52,7 @@ get_block_input <- function(ctl0 = NULL, ext0 = NULL){
                                        ifelse(toupper(V1) %in% note_param3, note3,
                                               ifelse(toupper(V1) %in% note_param4, note4,
                                                      "")))))%>%
-    dplyr::mutate(V1 = paste0(V1,"=NA_real_",ifelse(dplyr::row_number() == max(dplyr::row_number()), "", ","),NOTE))%>% # format for mrgsolve w/ notes
+    dplyr::mutate(V1 = paste0(V1,"=NA_real_",ifelse(dplyr::row_number() == max(dplyr::row_number()), "", ""),NOTE))%>% # removed "," from second ifelse 3/17/2024
     dplyr::select(-NOTE)
 
   mrg_code <- ctl0 %>%
@@ -382,8 +382,8 @@ get_block_pk <- function(ctl0 = NULL, mrg_code = NULL, cmts = NULL){
   ### Detect Variable Name (before = sign) ####
 
   special_rm <- c("CALLFL", "MTIME")
-  special_convert_rm <- c("R","D","N")
-  special_convert_kp <- c("F")
+  special_convert_rm <- c("N")
+  special_convert_kp <- c("F","D","R") # moved "R" and "D" from special_convert_rm 3/17/2024
   special_convert_kp2 <- c("ALAG")
   special_convert_init <- c("A_0(")
 
@@ -478,14 +478,15 @@ get_block_pk <- function(ctl0 = NULL, mrg_code = NULL, cmts = NULL){
   ### Finalize mrg_code return ####
 
   mrg_code <- mrg_code %>%
-    dplyr::bind_rows(data.frame(V1 = "/* NOTE: There is no guarantee to the accuracy of the NONMEM to mrgsolve translator. It is the responsibility of the user to QC the translated mrgsolve code. */"))%>%
+    dplyr::bind_rows(data.frame(V1 = "/* NOTE: There is no guarantee to the accuracy of the NONMEM to mrgsolve translator. It remains the responsibility of the user to validate the resulting mrgsolve code. */"))%>%
     dplyr::bind_rows(blank_df())%>%
     dplyr::bind_rows(data.frame(V1 = "/* NOTE: The nonmem2mrgsolve package remains in active development, please report bugs and feature requests to improve future versions. */"))%>%
+    dplyr::bind_rows(data.frame(V1 = "/* NOTE: If you find nonmem2mrgsolve helpful, please consider giving it a star at github.com/Andy00000000000/nonmem2mrgsolve. */"))%>%
     dplyr::bind_rows(blank_df())%>%
-    dplyr::bind_rows(data.frame(V1 = "/* NOTE: If a variable was declared within a conditional statement, then it may be missing double before the variable name. */"))%>%
+    # dplyr::bind_rows(data.frame(V1 = "/* NOTE: If a variable was declared within a conditional statement, then it may be missing double before the variable name. */"))%>% # comment out 3/17/2024
     dplyr::bind_rows(data.frame(V1 = "/* NOTE: The translator does not currently convert T or TIME to SOLVERTIME. */"))%>%
     dplyr::bind_rows(data.frame(V1 = "/* NOTE: The translator does not currently convert MTIME() to self.mtime(). */"))%>%
-    dplyr::bind_rows(data.frame(V1 = "/* NOTE: The translator does not currently handle IOV. */"))%>%
+    # dplyr::bind_rows(data.frame(V1 = "/* NOTE: The translator does not currently handle IOV. */"))%>% # comment out 3/17/2024
     dplyr::bind_rows(blank_df())%>%
     dplyr::bind_rows(input %>% dplyr::filter(BLOCK == "PK") %>% dplyr::select(V1))%>%
     dplyr::bind_rows(blank_df())%>%

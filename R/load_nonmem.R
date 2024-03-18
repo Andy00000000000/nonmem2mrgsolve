@@ -74,13 +74,22 @@ load_ext <- function(filename = NULL, dir = "", sigdig = -1, use.cnv = F){
 
   if(sigdig > 0){
     omnofix <- tmpfixed[1,dplyr::starts_with("OMEGA", vars = colnames(tmpfixed))]
+
+    if(class(omnofix)=="numeric"){ # 3/17/2024 fix load when only 1 IIV
+      omnofix <- data.frame("OMEGA.1.1." = omnofix)
+    }
+
     omnofix <- colnames(omnofix[which(omnofix[1,] != 1)])
 
-    tmpomnofix <- lapply(1:length(omnofix), function(i){
-      nofixtmpa <- strsplit(trimws(omnofix[[i]]),"\\.")
-      return(data.frame(R = as.numeric(nofixtmpa[[1]][2]), C = as.numeric(nofixtmpa[[1]][3])))
-    })
-    omnofix <- dplyr::bind_rows(tmpomnofix)
+    if(length(omnofix)>0){ # 3/17/2024 fix load when all IIV fixed
+      tmpomnofix <- lapply(1:length(omnofix), function(i){
+        nofixtmpa <- strsplit(trimws(omnofix[[i]]),"\\.")
+        return(data.frame(R = as.numeric(nofixtmpa[[1]][2]), C = as.numeric(nofixtmpa[[1]][3])))
+      })
+      omnofix <- dplyr::bind_rows(tmpomnofix)
+    }else{
+      omnofix <- NULL
+    }
   }
 
   ext <- list(NITER = NA, OFV = NA, THETA = NA, OMEGA = NA)
@@ -89,47 +98,58 @@ load_ext <- function(filename = NULL, dir = "", sigdig = -1, use.cnv = F){
   ext$OFV <- ext0[1,which(substr(colnames(ext0),nchar(colnames(ext0))-2,nchar(ext0)) == "OBJ")]
   ext$THETA <- ext0[1,dplyr::starts_with("THETA",vars = colnames(ext0))]
 
-  tmpom <- ext0[1,dplyr::starts_with("OMEGA",vars = colnames(ext0))]
-  tmpn <- strsplit(trimws(colnames(tmpom)[ncol(tmpom)]), "\\.")
+  tmpom0 <- ext0[1,dplyr::starts_with("OMEGA",vars = colnames(ext0))]
+  if(class(tmpom0)=="numeric"){ # 3/17/2024 fix load when only 1 IIV
+    tmpom0 <- data.frame("OMEGA.1.1." = tmpom0)
+  }
+
+  tmpn <- strsplit(trimws(colnames(tmpom0)[ncol(tmpom0)]), "\\.")
   tmpn <- as.numeric(tmpn[[1]][length(tmpn[[1]])])
 
   tmpom2 <- matrix(data = 0, ncol = tmpn, nrow = tmpn)
   colnames(tmpom2) <- paste0("OMEGA",1:tmpn)
   rownames(tmpom2) <- paste0("OMEGA",1:tmpn)
 
-  tmpom <- tmpom[1, which(tmpom != 0)]
+  tmpom <- tmpom0[1, which(tmpom0 != 0)]
+  if(class(tmpom)=="numeric"){ # 3/17/2024 fix load when only 1 IIV
+    tmpom_colnm <- colnames(tmpom0)[which(tmpom0!=0)]
+    tmpom_val <- tmpom
+    tmpom <- data.frame()
+    tmpom[1,colnames(tmpom0)[which(tmpom0!=0)]] = tmpom_val
+  }
 
-  for(i in 1:length(tmpom)){
+  if(length(tmpom)>0){ # 3/17/2024 fix error all IIV fixed to zero
+    for(i in 1:length(tmpom)){
 
-    tmp <- strsplit(trimws(colnames(tmpom)[i]),"\\.")[[1]]
-    tmpr <- as.numeric(tmp[2])
-    tmpc <- as.numeric(tmp[3])
+      tmp <- strsplit(trimws(colnames(tmpom)[i]),"\\.")[[1]]
+      tmpr <- as.numeric(tmp[2])
+      tmpc <- as.numeric(tmp[3])
 
-    if(sigdig > 0){
+      if(sigdig > 0 & !is.null(omnofix)){ # 3/17/2024 fix load when all iiv fixed
 
-      omvalround <- tmpom[1,i]
+        omvalround <- tmpom[1,i]
 
-      tmpa <- which(omnofix$R == tmpr)
-
-      if(length(tmpa)>0){
-
-        tmpa <- omnofix[tmpa,]
-        tmpa <- which(tmpa$C == tmpc)
+        tmpa <- which(omnofix$R == tmpr)
 
         if(length(tmpa)>0){
 
-          omvalround <- signif(tmpom[1,i], sigdig)
+          tmpa <- omnofix[tmpa,]
+          tmpa <- which(tmpa$C == tmpc)
 
+          if(length(tmpa)>0){
+
+            omvalround <- signif(tmpom[1,i], sigdig)
+          }
         }
+
+        tmpom2[tmpr,tmpc] <- omvalround
+        tmpom2[tmpc,tmpr] <- omvalround
+
+      }else{
+
+        tmpom2[tmpr,tmpc] <- tmpom[1,i]
+        tmpom2[tmpc,tmpr] <- tmpom[1,i]
       }
-
-      tmpom2[tmpr,tmpc] <- omvalround
-      tmpom2[tmpc,tmpr] <- omvalround
-
-    }else{
-
-      tmpom2[tmpr,tmpc] <- tmpom[1,i]
-      tmpom2[tmpc,tmpr] <- tmpom[1,i]
     }
   }
 

@@ -1,3 +1,93 @@
-# nonmem2mrgsolve
-# Run the command below within R to install:
-# devtools::install_github("Andy00000000000/nonmem2mrgsolve")
+nonmem2mrgsolve
+================
+
+## Purpose
+
+Provide an R package that automates NONMEM to mrgsolve translation to
+reduce human errors and improve efficiency.
+
+## Introduction
+
+Pharmacometricians often utilize multiple software, with NONMEM (ICON
+plc, Dublin, Ireland) widely regarded as the current gold standard for
+population pharmacokinetic (PK) and pharmacokinetic-pharmacodynamic
+(PK-PD) modeling. While NONMEM has the ability to simulate, it is often
+more convenient and practical to perform simulations using free
+open-source software such as R which can also perform post-processing of
+the output.A popular pharmacometrics-orientated R package for solving
+ODE systems is mrgsolve. Although mrgsolve has built-in functionality to
+streamline translation, to the best of our knowledge a
+previously-developed and publicly-available R package for fully
+automated NONMEM to mrgsolve translation does not exist.
+
+## Installation
+
+If not already installed, install R. Then within R run the following
+command:
+
+``` r
+devtools::install_github("Andy00000000000/nonmem2mrgsolve")
+```
+
+## Getting Started
+
+Full work-through examples will be created shortly, but in the meantime
+assume that a NONMEM run has finished estimating and has
+explicitly-defined ODEs. The ctl and ext files are both named pbpk-101
+and are located at C:/Documents/NONMEM/Project.
+
+Load R and run:
+
+``` r
+setwd("C:/Documents/NONMEM/Project") # set the working directory to where the NONMEM files are located
+library(nonmem2mrgsolve)             # load the nonmem2mrgsolve package
+nonmem2mrgsolve("pbpk-101")          # run the nonmem2mrgsolve function with default settings
+```
+
+The resulting mrgsolve code will be wrote to
+mrgsolve-code-V0\_pbpk-101.R within the C:/Documents/NONMEM/Project
+folder. The user should then validate the translation, for which there
+is an intuitive and established framework
+[(Here)](https://mrgsolve.org/blog/posts/2023-update-validation.html).
+
+## Usage Statement
+
+``` r
+nonmem2mrgsolve::nonmem2mrgsolve(
+  filename = "nonmem-model.ctl", # String of the NONMEM model name with or without the .ctl extension
+  dir = "./folder",              # String of the directory path to the NONMEM files (if not already given in the file name input or the working directory already set)
+  sigdig = NULL,                 # Numeric of the number of significant digits to round non-fixed thetas and etas to; default NULL for no rounding
+  write = T,                     # [T or F] for whether to write the resulting mrgsolve code to an R file
+  return.orig = F,               # [T or F] for whether to return the original NONMEM ctl and ext (or cnv) files to the R environment
+  out.filename = NULL,           # String of the name for the mrgsolve output file without the .R extension; NULL for default naming
+  use.cnv = F                    # [T or F] for whether to use the NONMEM cnv file for parameter estimates instead of the ext file
+)
+```
+
+## Getting Help
+
+Please feel free to report problems using the [Issue
+Tracker](https://github.com/Andy00000000000/nonmem2mrgsolve/issues) or
+to reach out for help on the [Discussion
+Board](https://github.com/Andy00000000000/nonmem2mrgsolve/discussions).
+
+## Our Team
+
+[Enhanced Pharmacodynamics, LLC (ePD)](https://www.epd-llc.com/) is a
+contract research organization that assists clients with the design and
+implementation of model-informed drug development strategies in a broad
+range of therapeutic areas. The executive management team is led by
+[Dr. Donald E. Mager](https://www.linkedin.com/in/don-mager-2652615/)
+and [Dr. Scott A. Van
+Wart](https://www.linkedin.com/in/scott-van-wart-2b6002a/).
+
+[Finch Studio](https://finchstudio.io/) is an integrated modeling
+environment for pharmacometricians, clinical pharmacologists, and other
+team members to visualize, develop, and organize PK/PD models and data.
+It includes a modern NONMEM code editor and workbench, interactive data
+tables and visualizations, and a PK/PD model library. The development
+team is led by [Dr. Mohamed
+Ismail](https://www.linkedin.com/in/mohamed-ismail-bb54a367/).
+
+nonmem2mrgsolve was developed at ePD by [Andrew
+Santulli](https://www.linkedin.com/in/andrew-santulli-219034156/).

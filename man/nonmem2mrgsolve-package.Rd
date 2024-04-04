@@ -2,8 +2,8 @@
 % Please edit documentation in R/nonmem2mrgsolve-package.R
 \docType{package}
 \name{nonmem2mrgsolve-package}
-\alias{nonmem2mrgsolve}
 \alias{nonmem2mrgsolve-package}
+\alias{_PACKAGE}
 \title{nonmem2mrgsolve: Automated NONMEM to mrgsolve Translation}
 \description{
 This package is intended to streamline the modeling and simulation process for PK and PK-PD applications by translating NONMEM models to mrgsolve syntax. It currently does not encompass all NONMEM use cases, and as such modifications to the output mrgsolve code may be neccessary. There is no guarantee to the accuracy of the translation. It remains the responsibility of the user to perform validation of the resulting mrgsolve code.

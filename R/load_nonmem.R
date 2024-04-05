@@ -14,8 +14,6 @@
 #' @examples
 #' load_ctl(filename = "nonmem-model", dir = "path/to/directory/")
 #'
-#' load_ctl(filename = "/path/to/directory/nonmem-model")
-#'
 #' @export
 load_ctl <- function(filename = NULL, dir = ""){
 
@@ -45,8 +43,6 @@ load_ctl <- function(filename = NULL, dir = ""){
 #'
 #' @examples
 #' load_ext(filename = "nonmem-model", dir = "path/to/directory/")
-#'
-#' load_ext(filename = "/path/to/directory/nonmem-model")
 #'
 #' @export
 load_ext <- function(filename = NULL, dir = "", sigdig = -1, use.cnv = F){

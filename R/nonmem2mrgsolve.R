@@ -18,8 +18,6 @@
 #' setwd("path/to/directory")
 #' nonmem2mrgsolve::nonmem2mrgsolve(filename = "nonmem-model.ctl")
 #'
-#' nonmem2mrgsolve::nonmem2mrgsolve(filename = "nonmem-model", dir = "path/to/directory", sigdig = 3, write = T, return.orig = F, out.filename = "mrgsolve-model", use.cnv = F)
-#'
 #' @export
 nonmem2mrgsolve <- function(filename = NULL, dir = NULL, sigdig = NULL, write = T, return.orig = F, out.filename = NULL, use.cnv = F){
 

@@ -35,7 +35,7 @@ nonmem2mrgsolve("pbpk-101")          # run the nonmem2mrgsolve function with def
 
 The resulting mrgsolve code will be wrote to mrgsolve-code-V0_pbpk-101.R within the C:/Documents/NONMEM/Project folder. The user should then validate the translation, for which there is an intuitive and established framework [(Here)](https://mrgsolve.org/blog/posts/2023-update-validation.html).
 
-## Usage Statement {.unnumbered #link_1}
+## Usage Statement
 
 ```{r}
 nonmem2mrgsolve::nonmem2mrgsolve(
@@ -65,7 +65,7 @@ nonmem2mrgsolve was developed at ePD by [Andrew Santulli](https://www.linkedin.c
 
 Three case study models are provided within the vignette folder. The following section will use these examples to provide a brief tutorial on how to implement nonmem2mrgsolve into the model development and simulation workflow. To get started, download nonmem2mrgsolve and copy the vignette folder to a convenient file location.
 
-### Example 1: A 1-compartment model with first-order absorption {.unnumbered #link_2}
+### Example 1: A 1-compartment model with first-order absorption
 
 Within the vignette >> models directory, you should find three folders:
 
@@ -91,7 +91,7 @@ nonmem2mrgsolve(
   sigdig = 3                                 # number of significant digits to report thetas and omegas to within the mrgsolve code (optional)
 )
 ```
-During the translation, the final parameter estimates (thetas and omegas) are obtained from the NONMEM .ext file, while the parameter and differential equations are pulled from the NONMEM .ctl file. There are several optional inputs to the nonmem2mrgsolve function, as detailed in the [usage statement](#link_1).
+During the translation, the final parameter estimates (thetas and omegas) are obtained from the NONMEM .ext file, while the parameter and differential equations are pulled from the NONMEM .ctl file. There are several optional inputs to the nonmem2mrgsolve function, as detailed in the usage statement.
 
 When the translation is finished, the mrgsolve code will print to the R console and will also be written to a .R file:
 
@@ -110,13 +110,13 @@ In this example manual user changes to the mrgsolve code are not needed, since t
 ![](./readme_images/vignette_05.PNG){width=50%}
 
 
-If certain model complexities are present (such as time-varying covariates), the nonmem2mrgsolve-translated mrgsolve code may fail to compile into an mrgsolve model object. The compilation failure will provide informative error messages for locating the line of code that needs attention. The compilation failure will also prevent the user from running simulations without first addressing problems in the code.
+If certain model complexities are present, the nonmem2mrgsolve-translated mrgsolve code may fail to compile into an mrgsolve model object. The compilation failure will provide informative error messages for locating the line of code that needs attention. The compilation failure will also prevent the user from running simulations without first addressing problems in the code.
 
 As a final step before conducting simulations, the user should validate the mrgsolve model. There is an intuitive and established framework [(Here)](https://mrgsolve.org/blog/posts/2023-update-validation.html). Model validation remains the responsibility of the user and should always be performed, regardless of the robustness of the translation software or the experience of the user.
 
 ### Example 2: A QSS Target-Mediated Drug Disposition (TMDD) Model and Indirect Response PK-PD Model
 
-This example is located within the evolocumab-tmdd-qss-pkpd-101 folder of the vignette >> models directory. Since the steps for translating the NONMEM model into mrgsolve code are equivalent to those presented in [Example 1](#link_2), the tutorial for this case study will start at compiling the nonmem2mrgsolve-translated mrgsolve code into an mrgsolve model object. The complete code for running the earlier steps as well is included within the run_nonmem2mrgsolve_evolocumab.R file.
+This example is located within the evolocumab-tmdd-qss-pkpd-101 folder of the vignette >> models directory. Since the steps for translating the NONMEM model into mrgsolve code are equivalent to those presented in Example 1, the tutorial for this case study will start at compiling the nonmem2mrgsolve-translated mrgsolve code into an mrgsolve model object. The complete code for running the earlier steps as well is included within the run_nonmem2mrgsolve_evolocumab.R file.
 
 Attempting to compile the nonmem2mrgsolve-translated mrgsolve code results in a fatal error:
 ```{r}
@@ -143,7 +143,7 @@ mrgsolve::mcode("Test_Modified_Translation",code)
 
 ### Example 3: A Whole-body Physiologically-based Pharmacokinetic (PBPK) Model
 
-This example is located within the mavoglurant-pbpk-101 folder of the vignette >> models directory. Since the steps for translating the NONMEM model into mrgsolve code are equivalent to those presented in [Example 1](#link_2), the tutorial for this case study will start at compiling the nonmem2mrgsolve-translated mrgsolve code into an mrgsolve model object. The complete code for running the earlier steps as well is included within the run_nonmem2mrgsolve_mavoglurant.R file.
+This example is located within the mavoglurant-pbpk-101 folder of the vignette >> models directory. Since the steps for translating the NONMEM model into mrgsolve code are equivalent to those presented in Example 1, the tutorial for this case study will start at compiling the nonmem2mrgsolve-translated mrgsolve code into an mrgsolve model object. The complete code for running the earlier steps as well is included within the run_nonmem2mrgsolve_mavoglurant.R file.
 
 Attempting to compile the nonmem2mrgsolve-translated mrgsolve code results in a fatal error:
 ```{r}

@@ -15,8 +15,8 @@
 #' @return R dataframe of the mrgsolve code
 #'
 #' @examples
-#' setwd("path/to/directory")
-#' nonmem2mrgsolve::nonmem2mrgsolve(filename = "nonmem-model.ctl")
+#' # setwd("path/to/directory")
+#' # nonmem2mrgsolve::nonmem2mrgsolve(filename = "nonmem-model.ctl")
 #'
 #' @export
 nonmem2mrgsolve <- function(filename = NULL, dir = NULL, sigdig = NULL, write = T, return.orig = F, out.filename = NULL, use.cnv = F){

@@ -75,6 +75,7 @@ This first example is drugx-oral-1cmt-101, in which you will find the NONMEM con
 
 ![](./readme_images/vignette_02.png){width=40%}
 
+
 Now that the directory structure is clear, start R, load the nonmem2mrgsolve package, and set the working directory to immediately before entering the vignette folder:
 ```{r}
 library("nonmem2mrgsolve")
@@ -137,6 +138,7 @@ Compiling the corrected mrgsolve code is successful:
 source("./vignette/models/evolocumab-tmdd-qss-pkpd-101/mrgsolve_code_evolocumab-tmdd_user-modified.R")
 mrgsolve::mcode("Test_Modified_Translation",code)
 ```
+
 ![](./readme_images/vignette_08.png){width=50%}
 
 ### Example 3: A Whole-body Physiologically-based Pharmacokinetic (PBPK) Model
@@ -148,6 +150,7 @@ Attempting to compile the nonmem2mrgsolve-translated mrgsolve code results in a 
 source("./vignette/models/mavoglurant-pbpk-101/mrgsolve_code_mavoglurant-pbpk.R")
 mrgsolve::mcode("Test_Unmodified_Translation",code)
 ```
+
 ![](./readme_images/vignette_09.png){width=80%}
 
 
@@ -164,4 +167,5 @@ Compiling the corrected mrgsolve code is successful:
 source("./vignette/models/mavoglurant-pbpk-101/mrgsolve_code_mavoglurant-pbpk_user-modified.R")
 mrgsolve::mcode("Test_Modified_Translation",code)
 ```
+
 ![](./readme_images/vignette_12.png){width=50%}

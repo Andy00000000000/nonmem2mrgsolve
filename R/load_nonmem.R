@@ -12,7 +12,7 @@
 #' @return R dataframe of the NONMEM ctl file
 #'
 #' @examples
-#' load_ctl(filename = "nonmem-model", dir = "path/to/directory/")
+#' # load_ctl(filename = "nonmem-model", dir = "path/to/directory/")
 #'
 #' @export
 load_ctl <- function(filename = NULL, dir = ""){

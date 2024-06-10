@@ -11,7 +11,7 @@
 #' @return R file of the mrgsolve code
 #'
 #' @examples
-#' writemrgsolve()
+#' # writemrgsolve()
 #'
 #' @export
 writemrgsolve <- function(mrg_code = NULL, filename = "mrgsolve_code0", dir = NULL){

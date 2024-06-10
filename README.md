@@ -104,7 +104,7 @@ the vignette folder to a convenient file location.
 Within the vignette &gt;&gt; models directory, you should find three
 folders:
 
-<img src="./readme_images/vignette_01.png" style="width:40.0%" />
+<img src="./readme_images/vignette_01.PNG" style="width:40.0%" />
 
 This first example is drugx-oral-1cmt-101, in which you will find the
 NONMEM control stream (.ctl) and output files (.ext and .lst). The
@@ -115,7 +115,7 @@ are provided as well for reference, but could be deleted at this step
 and recreated during the vignette. The run\_nonmem2mrgsolve\_drugx.R
 file contains all the code presented for this example of the vignette.
 
-<img src="./readme_images/vignette_02.png" style="width:40.0%" />
+<img src="./readme_images/vignette_02.PNG" style="width:40.0%" />
 
 Now that the directory structure is clear, start R, load the
 nonmem2mrgsolve package, and set the working directory to immediately
@@ -147,8 +147,8 @@ the [usage statement](#link_1).
 When the translation is finished, the mrgsolve code will print to the R
 console and will also be written to a .R file:
 
-<img src="./readme_images/vignette_03.png" style="width:100.0%" />
-<img src="./readme_images/vignette_04.png" style="width:40.0%" />
+<img src="./readme_images/vignette_03.PNG" style="width:100.0%" />
+<img src="./readme_images/vignette_04.PNG" style="width:40.0%" />
 
 Now is a good time to check whether the nonmem2mrgsolve-translated
 mrgsolve code requires any user modifications in order to compile:
@@ -161,7 +161,7 @@ mrgsolve::mcode("Test_Unmodified_Translation",code)
 In this example manual user changes to the mrgsolve code are not needed,
 since the model successfully compiled:
 
-<img src="./readme_images/vignette_05.png" style="width:50.0%" />
+<img src="./readme_images/vignette_05.PNG" style="width:50.0%" />
 
 If certain model complexities are present (such as time-varying
 covariates), the nonmem2mrgsolve-translated mrgsolve code may fail to
@@ -195,7 +195,7 @@ source("./vignette/models/evolocumab-tmdd-qss-pkpd-101/mrgsolve_code_evolocumab-
 mrgsolve::mcode("Test_Unmodified_Translation",code)
 ```
 
-<img src="./readme_images/vignette_06.png" style="width:100.0%" />
+<img src="./readme_images/vignette_06.PNG" style="width:100.0%" />
 
 From the error message it is clear that the issue occurred when the
 NONMEM dataset column “TIME” was being used in the differential equation
@@ -205,7 +205,7 @@ code block ($DES). Mrgsolve syntax requires this to be labeled as
 The user can manually make this single change while leaving the rest of
 the nonmem2mrgsolve code unmodified:
 
-<img src="./readme_images/vignette_07.png" style="width:100.0%" />
+<img src="./readme_images/vignette_07.PNG" style="width:100.0%" />
 
 Compiling the corrected mrgsolve code is successful:
 
@@ -214,7 +214,7 @@ source("./vignette/models/evolocumab-tmdd-qss-pkpd-101/mrgsolve_code_evolocumab-
 mrgsolve::mcode("Test_Modified_Translation",code)
 ```
 
-<img src="./readme_images/vignette_08.png" style="width:50.0%" />
+<img src="./readme_images/vignette_08.PNG" style="width:50.0%" />
 
 ### Example 3: A Whole-body Physiologically-based Pharmacokinetic (PBPK) Model
 
@@ -234,7 +234,7 @@ source("./vignette/models/mavoglurant-pbpk-101/mrgsolve_code_mavoglurant-pbpk.R"
 mrgsolve::mcode("Test_Unmodified_Translation",code)
 ```
 
-<img src="./readme_images/vignette_09.png" style="width:80.0%" />
+<img src="./readme_images/vignette_09.PNG" style="width:80.0%" />
 
 From the error message it is clear that the issue occurred because
 “RATE” was not declared in the parameter block ($PARAM). Additionally,
@@ -243,8 +243,8 @@ this should be renamed since “RATE” is a reserved term.
 The user can manually make these two changes while leaving the rest of
 the nonmem2mrgsolve code unmodified:
 
-<img src="./readme_images/vignette_10.png" style="width:100.0%" />
-<img src="./readme_images/vignette_11.png" style="width:100.0%" />
+<img src="./readme_images/vignette_10.PNG" style="width:100.0%" />
+<img src="./readme_images/vignette_11.PNG" style="width:100.0%" />
 
 Compiling the corrected mrgsolve code is successful:
 
@@ -253,4 +253,4 @@ source("./vignette/models/mavoglurant-pbpk-101/mrgsolve_code_mavoglurant-pbpk_us
 mrgsolve::mcode("Test_Modified_Translation",code)
 ```
 
-<img src="./readme_images/vignette_12.png" style="width:50.0%" />
+<img src="./readme_images/vignette_12.PNG" style="width:50.0%" />

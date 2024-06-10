@@ -69,11 +69,11 @@ Three case study models are provided within the vignette folder. The following s
 
 Within the vignette >> models directory, you should find three folders:
 
-![](./readme_images/vignette_01.png){width=40%}
+![](./readme_images/vignette_01.PNG){width=40%}
 
 This first example is drugx-oral-1cmt-101, in which you will find the NONMEM control stream (.ctl) and output files (.ext and .lst). The nonmem2mrgsolve package does not require the .lst file, it is provided solely for user reference. The nonmem2mrgsolve-translated mrgsolve code, along with the mrgsolve code following any necessary user modifications, are provided as well for reference, but could be deleted at this step and recreated during the vignette. The run_nonmem2mrgsolve_drugx.R file contains all the code presented for this example of the vignette.
 
-![](./readme_images/vignette_02.png){width=40%}
+![](./readme_images/vignette_02.PNG){width=40%}
 
 
 Now that the directory structure is clear, start R, load the nonmem2mrgsolve package, and set the working directory to immediately before entering the vignette folder:
@@ -95,8 +95,8 @@ During the translation, the final parameter estimates (thetas and omegas) are ob
 
 When the translation is finished, the mrgsolve code will print to the R console and will also be written to a .R file:
 
-![](./readme_images/vignette_03.png){width=100%}
-![](./readme_images/vignette_04.png){width=40%}
+![](./readme_images/vignette_03.PNG){width=100%}
+![](./readme_images/vignette_04.PNG){width=40%}
 
 
 Now is a good time to check whether the nonmem2mrgsolve-translated mrgsolve code requires any user modifications in order to compile:
@@ -107,7 +107,7 @@ mrgsolve::mcode("Test_Unmodified_Translation",code)
 
 In this example manual user changes to the mrgsolve code are not needed, since the model successfully compiled:
 
-![](./readme_images/vignette_05.png){width=50%}
+![](./readme_images/vignette_05.PNG){width=50%}
 
 
 If certain model complexities are present (such as time-varying covariates), the nonmem2mrgsolve-translated mrgsolve code may fail to compile into an mrgsolve model object. The compilation failure will provide informative error messages for locating the line of code that needs attention. The compilation failure will also prevent the user from running simulations without first addressing problems in the code.
@@ -123,14 +123,14 @@ Attempting to compile the nonmem2mrgsolve-translated mrgsolve code results in a 
 source("./vignette/models/evolocumab-tmdd-qss-pkpd-101/mrgsolve_code_evolocumab-tmdd.R")
 mrgsolve::mcode("Test_Unmodified_Translation",code)
 ```
-![](./readme_images/vignette_06.png){width=100%}
+![](./readme_images/vignette_06.PNG){width=100%}
 
 
 From the error message it is clear that the issue occurred when the NONMEM dataset column "TIME" was being used in the differential equation code block ($DES). Mrgsolve syntax requires this to be labeled as "SOLVERTIME".
 
 The user can manually make this single change while leaving the rest of the nonmem2mrgsolve code unmodified:
 
-![](./readme_images/vignette_07.png){width=100%}
+![](./readme_images/vignette_07.PNG){width=100%}
 
 
 Compiling the corrected mrgsolve code is successful:
@@ -139,7 +139,7 @@ source("./vignette/models/evolocumab-tmdd-qss-pkpd-101/mrgsolve_code_evolocumab-
 mrgsolve::mcode("Test_Modified_Translation",code)
 ```
 
-![](./readme_images/vignette_08.png){width=50%}
+![](./readme_images/vignette_08.PNG){width=50%}
 
 ### Example 3: A Whole-body Physiologically-based Pharmacokinetic (PBPK) Model
 
@@ -151,15 +151,15 @@ source("./vignette/models/mavoglurant-pbpk-101/mrgsolve_code_mavoglurant-pbpk.R"
 mrgsolve::mcode("Test_Unmodified_Translation",code)
 ```
 
-![](./readme_images/vignette_09.png){width=80%}
+![](./readme_images/vignette_09.PNG){width=80%}
 
 
 From the error message it is clear that the issue occurred because "RATE" was not declared in the parameter block ($PARAM). Additionally, this should be renamed since "RATE" is a reserved term.
 
 The user can manually make these two changes while leaving the rest of the nonmem2mrgsolve code unmodified:
 
-![](./readme_images/vignette_10.png){width=100%}
-![](./readme_images/vignette_11.png){width=100%}
+![](./readme_images/vignette_10.PNG){width=100%}
+![](./readme_images/vignette_11.PNG){width=100%}
 
 
 Compiling the corrected mrgsolve code is successful:
@@ -168,4 +168,4 @@ source("./vignette/models/mavoglurant-pbpk-101/mrgsolve_code_mavoglurant-pbpk_us
 mrgsolve::mcode("Test_Modified_Translation",code)
 ```
 
-![](./readme_images/vignette_12.png){width=50%}
+![](./readme_images/vignette_12.PNG){width=50%}

@@ -30,6 +30,8 @@ writemrgsolve <- function(mrg_code = NULL, filename = "mrgsolve_code0", dir = NU
   cat("'",file=nme_pth,append = T)
 
   close(file)
+
+  print("Mrgsolve Code was Saved to an R File")
 }
 
 ## END ####

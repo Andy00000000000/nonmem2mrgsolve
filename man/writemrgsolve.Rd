@@ -20,6 +20,6 @@ R file of the mrgsolve code
 Writes the mrgsolve code, translated from the input NONMEM run, to an R file.
 }
 \examples{
-writemrgsolve()
+# writemrgsolve()
 
 }

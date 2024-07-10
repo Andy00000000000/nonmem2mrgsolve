@@ -24,6 +24,4 @@ Loads the NONMEM ext file into R for capture of the final estimates.
 \examples{
 load_ext(filename = "nonmem-model", dir = "path/to/directory/")
 
-load_ext(filename = "/path/to/directory/nonmem-model")
-
 }

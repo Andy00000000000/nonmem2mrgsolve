@@ -53,7 +53,7 @@ is an intuitive and established framework
 
 ``` r
 nonmem2mrgsolve::nonmem2mrgsolve(
-  filename = "nonmem-model.ctl", # String of the NONMEM model name with or without the .ctl extension
+  filename = "nonmem-model.ctl", # String of the NONMEM model name with or without the .ctl (or .mod) extension
   dir = "./folder",              # String of the directory path to the NONMEM files (if not already given in the file name input or the working directory already set)
   sigdig = NULL,                 # Numeric of the number of significant digits to round non-fixed thetas and etas to; default NULL for no rounding
   write = T,                     # [T or F] for whether to write the resulting mrgsolve code to an R file
@@ -132,7 +132,7 @@ single function call:
 ``` r
 nonmem2mrgsolve(
   "mod1.ctl", # the NONMEM run name
-  "./vignette/models/drugx-oral-1cmt-101/", # path to mod1.ctl and mod1.ext, from the working directory (which was set earlier)
+  "./vignette/models/drugx-oral-1cmt-101/",  # path to mod1.ctl and mod1.ext, from the working directory (which was set earlier)
   out.filename = "mrgsolve_code_drugx-oral", # name for the mrgsolve code .R output file
   sigdig = 3                                 # number of significant digits to report thetas and omegas to within the mrgsolve code (optional)
 )

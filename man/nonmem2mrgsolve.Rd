@@ -15,7 +15,7 @@ nonmem2mrgsolve(
 )
 }
 \arguments{
-\item{filename}{String of the NONMEM model name with or without the .ctl extension}
+\item{filename}{String of the NONMEM model name with or without the .ctl (or .mod) extension}
 
 \item{dir}{String of the directory path to the NONMEM files (if not already given in the filename input; or if the working directory was not already set)}
 
@@ -36,12 +36,7 @@ R dataframe of the mrgsolve code
 Translates a NONMEM model into mrgsolve syntax using the NONMEM ctl and ext (or cnv) files.
 }
 \examples{
-setwd("path/to/directory")
-nonmem2mrgsolve::nonmem2mrgsolve(filename = "nonmem-model.ctl")
-
-nonmem2mrgsolve::nonmem2mrgsolve(filename = "nonmem-model", dir = "path/to/directory", sigdig = 3, write = T, return.orig = F, out.filename = "mrgsolve-model", use.cnv = F)
-
-library(nonmem2mrgsolve)
-nonmem2mrgsolve(filename = "/path/to/directory/nonmem-model.ctl")
+# setwd("path/to/directory")
+# nonmem2mrgsolve::nonmem2mrgsolve(filename = "nonmem-model.ctl")
 
 }

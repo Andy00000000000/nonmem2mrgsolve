@@ -2,24 +2,22 @@
 % Please edit documentation in R/load_nonmem.R
 \name{load_ctl}
 \alias{load_ctl}
-\title{Load NONMEM ctl file into R}
+\title{Load NONMEM ctl (or mod) file into R}
 \usage{
 load_ctl(filename = NULL, dir = "")
 }
 \arguments{
-\item{filename}{String of the NONMEM model name without the .ctl extension}
+\item{filename}{String of the NONMEM model name without the .ctl (or .mod) extension}
 
 \item{dir}{String of the directory path to the NONMEM run files}
 }
 \value{
-R dataframe of the NONMEM ctl file
+R dataframe of the NONMEM ctl (or mod) file
 }
 \description{
-Loads the NONMEM ctl file into R for translation to mrgsolve format.
+Loads the NONMEM ctl (or mod) file into R for translation to mrgsolve format.
 }
 \examples{
-load_ctl(filename = "nonmem-model", dir = "path/to/directory/")
-
-load_ctl(filename = "/path/to/directory/nonmem-model")
+# load_ctl(filename = "nonmem-model", dir = "path/to/directory/")
 
 }

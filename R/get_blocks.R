@@ -13,7 +13,7 @@ get_block_input <- function(ctl0 = NULL, ext0 = NULL){
 
   note1 <- " /* NOTE: Parameter identified as time-varying. A full dataset must be supplied to mrgsolve or the parameter should instead be calculated in $ODE. */"
   note2 <- " /* NOTE: Parameter identified as time-varying. Please refer to TIME, self.time(), and SOLVERTIME if TSFD is equivalent to TIME. */"
-  note3 <- " /* NOTE: Parameter identified as time-varying. Please refer to self.tad(). */"
+  note3 <- " /* NOTE: Parameter identified as time-varying. Please refer to self.tad() and mrg::tadose. */"
   note4 <- " /* NOTE: Parameter identified as related to AMT. Please refer to self.amt() or supply in the dataset. */"
 
   input <- ctl0 %>%
@@ -120,24 +120,71 @@ get_block_pk <- function(ctl0 = NULL, mrg_code = NULL, cmts = NULL){
   input <- ctl0 %>%
     dplyr::filter((BLOCK == "PK" | BLOCK == "DES"), FLG_BLOCK != 1)%>%
     dplyr::select(V1,BLOCK)%>%
+
     dplyr::mutate(V1 = gsub("EXP\\(","exp\\(",V1))%>% # convert to mrgsolve syntax
     dplyr::mutate(V1 = gsub("LOG\\(","log\\(",V1))%>%
     dplyr::mutate(V1 = gsub("LOG10\\(","log10\\(",V1))%>%
     dplyr::mutate(V1 = gsub("SQRT\\(","sqrt\\(",V1))%>%
+
+    dplyr::mutate(V1 = gsub("\\s*ELSE\\s*IF\\s*\\(\\s*", "}else if\\(",V1))%>% # 06aug2024 changed all \\s to \\s* in this code header section; put call w/ most whitespace replacement first
+    dplyr::mutate(V1 = gsub("\\s*ELSE\\s*IF\\s*\\(", "}else if\\(",V1))%>% # 06aug2024
+    dplyr::mutate(V1 = gsub("ELSE\\s*IF\\s*\\(\\s*", "}else if\\(",V1))%>% # 06aug2024
+    dplyr::mutate(V1 = gsub("ELSE\\s*IF\\s*\\(", "}else if\\(",V1))%>% # 06aug2024
+    dplyr::mutate(V1 = gsub("\\s*ELSE\\s*IF\\(\\s*", "}else if\\(",V1))%>% # 06aug2024
+    dplyr::mutate(V1 = gsub("\\s*ELSE\\s*IF\\(", "}else if\\(",V1))%>% # 06aug2024
+    dplyr::mutate(V1 = gsub("ELSE\\s*IF\\(\\s*", "}else if\\(",V1))%>% # 06aug2024
+    dplyr::mutate(V1 = gsub("ELSE\\s*IF\\(", "}else if\\(",V1))%>% # 06aug2024
+
+    dplyr::mutate(V1 = gsub("\\s*IF\\s*\\(\\s*","if\\(",V1))%>% # 06aug2024
+    dplyr::mutate(V1 = gsub("\\s*IF\\s*\\(","if\\(",V1))%>% # 06aug2024
+    dplyr::mutate(V1 = gsub("IF\\s*\\(\\s*","if\\(",V1))%>% # 06aug2024
+    dplyr::mutate(V1 = gsub("IF\\s*\\(","if\\(",V1))%>%
+    dplyr::mutate(V1 = gsub("\\s*IF\\(\\s*","if\\(",V1))%>% # 06aug2024
+    dplyr::mutate(V1 = gsub("\\s*IF\\(","if\\(",V1))%>% # 06aug2024
+    dplyr::mutate(V1 = gsub("IF\\(\\s*","if\\(",V1))%>% # 06aug2024
     dplyr::mutate(V1 = gsub("IF\\(","if\\(",V1))%>%
-    dplyr::mutate(V1 = gsub("IF\\s\\(","if\\(",V1))%>%
+
+    dplyr::mutate(V1 = gsub("\\s*ELSE\\s*","}else{",V1))%>% # 06aug2024
+    dplyr::mutate(V1 = gsub("\\s*ELSE","}else{",V1))%>% # 06aug2024
+    dplyr::mutate(V1 = gsub("ELSE\\s*","}else{",V1))%>% # 06aug2024
     dplyr::mutate(V1 = gsub("ELSE","}else{",V1))%>%
+
+    dplyr::mutate(V1 = gsub("\\s*THEN\\s*","\\{",V1))%>% # 06aug2024
+    dplyr::mutate(V1 = gsub("\\s*THEN","\\{",V1))%>% # 06aug2024
+    dplyr::mutate(V1 = gsub("THEN\\s*","\\{",V1))%>% # 06aug2024
     dplyr::mutate(V1 = gsub("THEN","\\{",V1))%>%
+
+    dplyr::mutate(V1 = gsub("\\s*ENDIF\\s*","\\}",V1))%>% #06aug2024
+    dplyr::mutate(V1 = gsub("\\s*ENDIF","\\}",V1))%>% #06aug2024
+    dplyr::mutate(V1 = gsub("ENDIF\\s*","\\}",V1))%>% #06aug2024
     dplyr::mutate(V1 = gsub("ENDIF","\\}",V1))%>%
 
-    dplyr::mutate(V1 = gsub("\\s\\.EQ\\.\\s","==",V1))%>%
-    dplyr::mutate(V1 = gsub("\\s\\.NE\\.\\s","!=",V1))%>%
-    dplyr::mutate(V1 = gsub("\\s\\.GT\\.\\s",">",V1))%>%
-    dplyr::mutate(V1 = gsub("\\s\\.LT\\.\\s","<",V1))%>%
-    dplyr::mutate(V1 = gsub("\\s\\.GE\\.\\s",">=",V1))%>%
-    dplyr::mutate(V1 = gsub("\\s\\.LE\\.\\s","<=",V1))%>%
-    dplyr::mutate(V1 = gsub("\\s\\.AND\\.\\s","\\&",V1))%>%
-    dplyr::mutate(V1 = gsub("\\s\\.OR\\.\\s","\\|",V1))%>%
+    dplyr::mutate(V1 = gsub("\\s*\\.EQ\\.\\s*","==",V1))%>%
+    dplyr::mutate(V1 = gsub("\\s*\\.NE\\.\\s*","!=",V1))%>%
+    dplyr::mutate(V1 = gsub("\\s*\\.GT\\.\\s*",">",V1))%>%
+    dplyr::mutate(V1 = gsub("\\s*\\.LT\\.\\s*","<",V1))%>%
+    dplyr::mutate(V1 = gsub("\\s*\\.GE\\.\\s*",">=",V1))%>%
+    dplyr::mutate(V1 = gsub("\\s*\\.LE\\.\\s*","<=",V1))%>%
+    dplyr::mutate(V1 = gsub("\\s*\\.AND\\.\\s*","\\&",V1))%>%
+    dplyr::mutate(V1 = gsub("\\s*\\.OR\\.\\s*","\\|",V1))%>%
+
+    dplyr::mutate(V1 = gsub("\\.EQ\\.\\s*","==",V1))%>%
+    dplyr::mutate(V1 = gsub("\\.NE\\.\\s*","!=",V1))%>%
+    dplyr::mutate(V1 = gsub("\\.GT\\.\\s*",">",V1))%>%
+    dplyr::mutate(V1 = gsub("\\.LT\\.\\s*","<",V1))%>%
+    dplyr::mutate(V1 = gsub("\\.GE\\.\\s*",">=",V1))%>%
+    dplyr::mutate(V1 = gsub("\\.LE\\.\\s*","<=",V1))%>%
+    dplyr::mutate(V1 = gsub("\\.AND\\.\\s*","\\&",V1))%>%
+    dplyr::mutate(V1 = gsub("\\.OR\\.\\s*","\\|",V1))%>%
+
+    dplyr::mutate(V1 = gsub("\\s*\\.EQ\\.","==",V1))%>%
+    dplyr::mutate(V1 = gsub("\\s*\\.NE\\.","!=",V1))%>%
+    dplyr::mutate(V1 = gsub("\\s*\\.GT\\.",">",V1))%>%
+    dplyr::mutate(V1 = gsub("\\s*\\.LT\\.","<",V1))%>%
+    dplyr::mutate(V1 = gsub("\\s*\\.GE\\.",">=",V1))%>%
+    dplyr::mutate(V1 = gsub("\\s*\\.LE\\.","<=",V1))%>%
+    dplyr::mutate(V1 = gsub("\\s*\\.AND\\.","\\&",V1))%>%
+    dplyr::mutate(V1 = gsub("\\s*\\.OR\\.","\\|",V1))%>%
 
     dplyr::mutate(V1 = gsub("\\.EQ\\.","==",V1))%>%
     dplyr::mutate(V1 = gsub("\\.NE\\.","!=",V1))%>%
@@ -146,25 +193,7 @@ get_block_pk <- function(ctl0 = NULL, mrg_code = NULL, cmts = NULL){
     dplyr::mutate(V1 = gsub("\\.GE\\.",">=",V1))%>%
     dplyr::mutate(V1 = gsub("\\.LE\\.","<=",V1))%>%
     dplyr::mutate(V1 = gsub("\\.AND\\.","\\&",V1))%>%
-    dplyr::mutate(V1 = gsub("\\.OR\\.","\\|",V1))%>%
-
-    dplyr::mutate(V1 = gsub("\\.EQ\\.\\s","==",V1))%>%
-    dplyr::mutate(V1 = gsub("\\.NE\\.\\s","!=",V1))%>%
-    dplyr::mutate(V1 = gsub("\\.GT\\.\\s",">",V1))%>%
-    dplyr::mutate(V1 = gsub("\\.LT\\.\\s","<",V1))%>%
-    dplyr::mutate(V1 = gsub("\\.GE\\.\\s",">=",V1))%>%
-    dplyr::mutate(V1 = gsub("\\.LE\\.\\s","<=",V1))%>%
-    dplyr::mutate(V1 = gsub("\\.AND\\.\\s","\\&",V1))%>%
-    dplyr::mutate(V1 = gsub("\\.OR\\.\\s","\\|",V1))%>%
-
-    dplyr::mutate(V1 = gsub("\\s\\.EQ\\.","==",V1))%>%
-    dplyr::mutate(V1 = gsub("\\s\\.NE\\.","!=",V1))%>%
-    dplyr::mutate(V1 = gsub("\\s\\.GT\\.",">",V1))%>%
-    dplyr::mutate(V1 = gsub("\\s\\.LT\\.","<",V1))%>%
-    dplyr::mutate(V1 = gsub("\\s\\.GE\\.",">=",V1))%>%
-    dplyr::mutate(V1 = gsub("\\s\\.LE\\.","<=",V1))%>%
-    dplyr::mutate(V1 = gsub("\\s\\.AND\\.","\\&",V1))%>%
-    dplyr::mutate(V1 = gsub("\\s\\.OR\\.","\\|",V1))
+    dplyr::mutate(V1 = gsub("\\.OR\\.","\\|",V1))
 
   ### Flag Conditional Statements ####
 
@@ -187,9 +216,9 @@ get_block_pk <- function(ctl0 = NULL, mrg_code = NULL, cmts = NULL){
 
   tmp <- input %>%
     dplyr::filter(FLG_COND2 == 1)%>%
-    dplyr::mutate(V1 = gsub("\\s", "", V1))%>% # remove all white space from single line conditional statements
-    dplyr::mutate(V1 = gsub("\\{", "", V1))%>% # remove { from single line conditional statements
-    dplyr::mutate(V1 = gsub("\\}", "", V1))    # remove } from single line conditional statements
+    dplyr::mutate(V1 = gsub("\\s*", "", V1))%>% # remove all white space from single line conditional statements; 06aug2024 changed //s to //s*
+    dplyr::mutate(V1 = gsub("\\{", "", V1))%>%  # remove { from single line conditional statements
+    dplyr::mutate(V1 = gsub("\\}", "", V1))     # remove } from single line conditional statements
 
   if(nrow(tmp)>0){
 
@@ -351,7 +380,7 @@ get_block_pk <- function(ctl0 = NULL, mrg_code = NULL, cmts = NULL){
         ind <- min(c(unlist(ind1),unlist(ind2),unlist(ind3),unlist(ind4),unlist(ind5),nchar(tmps[2])))
 
         if(ind == nchar(tmps[2])){
-          tmps[2] <- paste0(tmps[2],")")
+          tmps[2] <- paste0(trimws(tmps[2]),")") # 06aug2024 added trimws
         }else{
           tmps[2] <- paste0(substr(tmps[2],1,ind-1),")",substr(tmps[2],ind,nchar(tmps[2])))
         }
@@ -542,7 +571,7 @@ get_block_table<- function(ctl0 = ctl, mrg_code = mrg_code, params = all_params,
     dplyr::filter(BLOCK == "TABLE")%>%
     dplyr::select(V1)%>%
     dplyr::mutate(V1 = paste(V1, collapse = " "))%>% # join all rows of input to single row
-    dplyr::distinct() # remove duplicates
+    dplyr::distinct() # remove duplicates; this line likely isn't needed/redundant, but leaving until time to test
 
   input <- data.frame(V1 = strsplit(input$V1, "\\s")[[1]]) %>% # single row to many by white space
     dplyr::mutate(V1 = trimws(V1, which = "both"))%>% # remove white space
@@ -551,7 +580,8 @@ get_block_table<- function(ctl0 = ctl, mrg_code = mrg_code, params = all_params,
   input <- input %>%
     dplyr::filter(V1 != "$STABLE")%>%
     dplyr::filter(V1 %in% params)%>%
-    dplyr::filter(!(V1 %in% cmts))
+    dplyr::filter(!(V1 %in% cmts))%>%
+    dplyr::distinct() # remove duplicates; 06aug2024
 
   mrg_code <- mrg_code %>%
     dplyr::bind_rows(input)%>%

@@ -192,8 +192,8 @@ get_block_pk <- function(ctl0 = NULL, mrg_code = NULL, cmts = NULL){
     dplyr::mutate(V1 = gsub("\\.LT\\.","<",V1))%>%
     dplyr::mutate(V1 = gsub("\\.GE\\.",">=",V1))%>%
     dplyr::mutate(V1 = gsub("\\.LE\\.","<=",V1))%>%
-    dplyr::mutate(V1 = gsub("\\.AND\\.","\\&",V1))%>%
-    dplyr::mutate(V1 = gsub("\\.OR\\.","\\|",V1))
+    dplyr::mutate(V1 = gsub("\\.AND\\.","\\&\\&",V1))%>%
+    dplyr::mutate(V1 = gsub("\\.OR\\.","\\|\\|",V1))
 
   ### Flag Conditional Statements ####
 

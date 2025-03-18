@@ -165,7 +165,7 @@ get_block_pk <- function(ctl0 = NULL, mrg_code = NULL, cmts = NULL){
     dplyr::mutate(V1 = gsub("\\s*\\.LT\\.\\s*","<",V1))%>%
     dplyr::mutate(V1 = gsub("\\s*\\.GE\\.\\s*",">=",V1))%>%
     dplyr::mutate(V1 = gsub("\\s*\\.LE\\.\\s*","<=",V1))%>%
-    dplyr::mutate(V1 = gsub("\\s*\\.AND\\.\\s*","\\&\\&",V1))%>% #18mar2025 & to &&
+    dplyr::mutate(V1 = gsub("\\s*\\.AND\\.\\s*","\\&\\&",V1))%>% #18mar2025 & to && to account for more common use case
     dplyr::mutate(V1 = gsub("\\s*\\.OR\\.\\s*","\\|\\|",V1))%>% #18mar2025 | to ||
 
     dplyr::mutate(V1 = gsub("\\.EQ\\.\\s*","==",V1))%>%

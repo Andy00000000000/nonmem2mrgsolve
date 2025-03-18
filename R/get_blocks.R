@@ -165,8 +165,8 @@ get_block_pk <- function(ctl0 = NULL, mrg_code = NULL, cmts = NULL){
     dplyr::mutate(V1 = gsub("\\s*\\.LT\\.\\s*","<",V1))%>%
     dplyr::mutate(V1 = gsub("\\s*\\.GE\\.\\s*",">=",V1))%>%
     dplyr::mutate(V1 = gsub("\\s*\\.LE\\.\\s*","<=",V1))%>%
-    dplyr::mutate(V1 = gsub("\\s*\\.AND\\.\\s*","\\&",V1))%>%
-    dplyr::mutate(V1 = gsub("\\s*\\.OR\\.\\s*","\\|",V1))%>%
+    dplyr::mutate(V1 = gsub("\\s*\\.AND\\.\\s*","\\&\\&",V1))%>% #18mar2025
+    dplyr::mutate(V1 = gsub("\\s*\\.OR\\.\\s*","\\|\\|",V1))%>% #18mar2025
 
     dplyr::mutate(V1 = gsub("\\.EQ\\.\\s*","==",V1))%>%
     dplyr::mutate(V1 = gsub("\\.NE\\.\\s*","!=",V1))%>%
@@ -174,8 +174,8 @@ get_block_pk <- function(ctl0 = NULL, mrg_code = NULL, cmts = NULL){
     dplyr::mutate(V1 = gsub("\\.LT\\.\\s*","<",V1))%>%
     dplyr::mutate(V1 = gsub("\\.GE\\.\\s*",">=",V1))%>%
     dplyr::mutate(V1 = gsub("\\.LE\\.\\s*","<=",V1))%>%
-    dplyr::mutate(V1 = gsub("\\.AND\\.\\s*","\\&",V1))%>%
-    dplyr::mutate(V1 = gsub("\\.OR\\.\\s*","\\|",V1))%>%
+    dplyr::mutate(V1 = gsub("\\.AND\\.\\s*","\\&\\&",V1))%>% #18mar2025
+    dplyr::mutate(V1 = gsub("\\.OR\\.\\s*","\\|\\|",V1))%>% #18mar2025
 
     dplyr::mutate(V1 = gsub("\\s*\\.EQ\\.","==",V1))%>%
     dplyr::mutate(V1 = gsub("\\s*\\.NE\\.","!=",V1))%>%
@@ -183,8 +183,8 @@ get_block_pk <- function(ctl0 = NULL, mrg_code = NULL, cmts = NULL){
     dplyr::mutate(V1 = gsub("\\s*\\.LT\\.","<",V1))%>%
     dplyr::mutate(V1 = gsub("\\s*\\.GE\\.",">=",V1))%>%
     dplyr::mutate(V1 = gsub("\\s*\\.LE\\.","<=",V1))%>%
-    dplyr::mutate(V1 = gsub("\\s*\\.AND\\.","\\&",V1))%>%
-    dplyr::mutate(V1 = gsub("\\s*\\.OR\\.","\\|",V1))%>%
+    dplyr::mutate(V1 = gsub("\\s*\\.AND\\.","\\&\\&",V1))%>% #18mar2025
+    dplyr::mutate(V1 = gsub("\\s*\\.OR\\.","\\|\\|",V1))%>% #18mar2025
 
     dplyr::mutate(V1 = gsub("\\.EQ\\.","==",V1))%>%
     dplyr::mutate(V1 = gsub("\\.NE\\.","!=",V1))%>%
@@ -192,8 +192,8 @@ get_block_pk <- function(ctl0 = NULL, mrg_code = NULL, cmts = NULL){
     dplyr::mutate(V1 = gsub("\\.LT\\.","<",V1))%>%
     dplyr::mutate(V1 = gsub("\\.GE\\.",">=",V1))%>%
     dplyr::mutate(V1 = gsub("\\.LE\\.","<=",V1))%>%
-    dplyr::mutate(V1 = gsub("\\.AND\\.","\\&\\&",V1))%>%
-    dplyr::mutate(V1 = gsub("\\.OR\\.","\\|\\|",V1))
+    dplyr::mutate(V1 = gsub("\\.AND\\.","\\&\\&",V1))%>% #18mar2025
+    dplyr::mutate(V1 = gsub("\\.OR\\.","\\|\\|",V1)) #18mar2025
 
   ### Flag Conditional Statements ####
 
